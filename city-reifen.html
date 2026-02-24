@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>City Reifen Wuppertal – KFZ Werkstatt & Reifenhandel</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,500;0,700;0,900;1,700&family=Barlow:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black:  #0A0A0A;
+    --dark:   #111111;
+    --dark2:  #181818;
+    --dark3:  #222222;
+    --steel:  #2A2A2A;
+    --red:    #D42B2B;
+    --red2:   #FF3333;
+    --orange: #E8650A;
+    --white:  #F0EDE8;
+    --grey:   #888888;
+    --lgrey:  #CCCCCC;
+    --border: rgba(255,255,255,0.07);
+    --border2:rgba(255,255,255,0.12);
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ── GRAIN OVERLAY ── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  }
+
+  /* ══ NAV ══════════════════════════════════════════ */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 64px;
+  }
+
+  .logo {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    text-decoration: none;
+  }
+  .logo-main {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--white);
+    letter-spacing: 0.08em;
+    line-height: 1;
+  }
+  .logo-main span { color: var(--red); }
+  .logo-sub {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--grey);
+    line-height: 1;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--grey);
+    text-decoration: none;
+    padding: 8px 14px;
+    transition: color 0.2s;
+    border-bottom: 2px solid transparent;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-links a.active { color: var(--red); border-bottom-color: var(--red); }
+
+  .nav-phone {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.08em;
+    color: var(--red);
+    text-decoration: none;
+    border: 1px solid var(--red);
+    padding: 6px 18px;
+    transition: all 0.25s;
+  }
+  .nav-phone:hover {
+    background: var(--red);
+    color: var(--white);
+  }
+
+  /* ══ HERO ═════════════════════════════════════════ */
+  .hero {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    background: var(--black);
+  }
+
+  /* Tire tread pattern background */
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+  .hero-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(
+        90deg,
+        transparent 0px,
+        transparent 18px,
+        rgba(255,255,255,0.015) 18px,
+        rgba(255,255,255,0.015) 20px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 60px,
+        rgba(255,255,255,0.01) 60px,
+        rgba(255,255,255,0.01) 62px
+      );
+  }
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 80% 50%, rgba(212,43,43,0.12) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 80% at 0% 100%, rgba(232,101,10,0.08) 0%, transparent 60%),
+                linear-gradient(to top, rgba(10,10,10,0.8) 0%, transparent 60%);
+  }
+
+  /* Giant tire SVG watermark */
+  .hero-tire {
+    position: absolute;
+    right: -120px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 720px;
+    height: 720px;
+    opacity: 0.06;
+    animation: slowSpin 60s linear infinite;
+  }
+  @keyframes slowSpin {
+    to { transform: translateY(-50%) rotate(360deg); }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 80px 100px;
+    max-width: 900px;
+    animation: heroIn 0.9s ease-out both;
+  }
+  @keyframes heroIn {
+    from { opacity:0; transform: translateY(40px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 24px;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 32px;
+    height: 2px;
+    background: var(--red);
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(72px, 10vw, 148px);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .hero h1 .red { color: var(--red); }
+  .hero h1 .outline {
+    -webkit-text-stroke: 2px rgba(240,237,232,0.2);
+    color: transparent;
+  }
+
+  .hero-divider {
+    width: 80px;
+    height: 3px;
+    background: var(--red);
+    margin: 32px 0;
+  }
+
+  .hero-desc {
+    font-size: 18px;
+    font-weight: 300;
+    color: rgba(240,237,232,0.65);
+    max-width: 540px;
+    margin-bottom: 48px;
+    line-height: 1.8;
+  }
+  .hero-desc strong { color: var(--white); font-weight: 500; }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .btn-red {
+    background: var(--red);
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 15px 36px;
+    border: 2px solid var(--red);
+    display: inline-block;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-red::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--red2);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+    z-index: -1;
+  }
+  .btn-red:hover::before { transform: scaleX(1); }
+  .btn-red:hover { border-color: var(--red2); transform: translateY(-2px); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--lgrey);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 15px 36px;
+    border: 1px solid var(--border2);
+    display: inline-block;
+    transition: all 0.25s;
+  }
+  .btn-ghost:hover {
+    border-color: rgba(255,255,255,0.3);
+    color: var(--white);
+  }
+
+  .hero-stats {
+    position: absolute;
+    bottom: 100px;
+    right: 80px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    text-align: right;
+    animation: heroIn 0.9s 0.3s ease-out both;
+  }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    color: var(--white);
+    line-height: 1;
+    display: block;
+  }
+  .stat-num span { color: var(--red); }
+  .stat-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--grey);
+    display: block;
+    margin-top: 2px;
+  }
+
+  /* ══ HIGHLIGHT BAR ════════════════════════════════ */
+  .highlight-bar {
+    background: var(--red);
+    padding: 16px 48px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    overflow: hidden;
+  }
+  .highlight-item {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--white);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .highlight-item::before { content: '◆'; font-size: 8px; opacity: 0.6; }
+  .highlight-sep {
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+  }
+
+  /* ══ NEW BADGE ════════════════════════════════════ */
+  .new-banner {
+    background: var(--dark2);
+    border: 1px solid var(--orange);
+    margin: 48px 80px;
+    padding: 32px 40px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 32px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .new-banner::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: var(--orange);
+  }
+  .new-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    background: var(--orange);
+    color: var(--white);
+    padding: 6px 14px;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+  .new-text h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--orange);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .new-text p {
+    font-size: 15px;
+    color: rgba(240,237,232,0.7);
+    max-width: 720px;
+  }
+
+  /* ══ SERVICES GRID ═══════════════════════════════ */
+  .services {
+    padding: 80px;
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 24px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 0 0 40px;
+    height: 1px;
+    background: var(--red);
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 5vw, 72px);
+    letter-spacing: 0.04em;
+    color: var(--white);
+    line-height: 0.95;
+    margin-bottom: 60px;
+  }
+  .section-title span { color: var(--red); }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .service-card {
+    background: var(--dark2);
+    padding: 40px 36px;
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+    cursor: default;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--red);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+    transform-origin: left;
+  }
+  .service-card:hover {
+    background: var(--dark3);
+    border-color: var(--border2);
+  }
+  .service-card:hover::before { transform: scaleX(1); }
+
+  .service-icon {
+    font-size: 40px;
+    display: block;
+    margin-bottom: 20px;
+    filter: grayscale(0.3);
+  }
+
+  .service-num {
+    position: absolute;
+    top: 24px;
+    right: 28px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 60px;
+    color: rgba(255,255,255,0.04);
+    line-height: 1;
+    pointer-events: none;
+    transition: color 0.3s;
+  }
+  .service-card:hover .service-num { color: rgba(212,43,43,0.06); }
+
+  .service-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+
+  .service-desc {
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(240,237,232,0.55);
+    line-height: 1.75;
+  }
+
+  .service-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    text-decoration: none;
+    transition: gap 0.2s;
+  }
+  .service-link:hover { gap: 14px; }
+  .service-link::after { content: '→'; }
+
+  /* ══ ABOUT / USP SPLIT ═══════════════════════════ */
+  .about {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 560px;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .about-visual {
+    background: var(--dark2);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .about-visual-inner {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+  }
+  .about-big-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 200px;
+    color: var(--white);
+    line-height: 1;
+    display: block;
+    letter-spacing: -0.02em;
+  }
+  .about-big-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--grey);
+    display: block;
+    margin-top: -16px;
+  }
+
+  /* Cross-hatch decoration */
+  .about-visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 8px,
+      rgba(255,255,255,0.012) 8px,
+      rgba(255,255,255,0.012) 9px
+    );
+  }
+  .about-visual-accent {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--red), var(--orange));
+  }
+
+  .about-content {
+    padding: 72px 80px;
+    background: var(--dark);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .about-content p {
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(240,237,232,0.65);
+    margin-bottom: 18px;
+    line-height: 1.8;
+  }
+  .about-content p strong {
+    color: var(--white);
+    font-weight: 500;
+  }
+
+  .usp-list {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .usp-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 18px;
+    background: var(--dark2);
+    border-left: 3px solid var(--red);
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(240,237,232,0.7);
+    transition: background 0.2s;
+  }
+  .usp-item:hover { background: var(--dark3); }
+  .usp-item .usp-icon { font-size: 18px; flex-shrink: 0; }
+
+  /* ══ SPECIALTIES / INVENTORY ═════════════════════ */
+  .inventory {
+    padding: 80px;
+    background: var(--dark2);
+  }
+
+  .inv-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    margin-top: 60px;
+  }
+
+  .inv-card {
+    background: var(--dark);
+    padding: 32px 28px;
+    border: 1px solid var(--border);
+    text-align: center;
+    transition: all 0.3s;
+    position: relative;
+  }
+  .inv-card:hover {
+    background: var(--dark3);
+    border-color: rgba(212,43,43,0.3);
+    transform: translateY(-4px);
+  }
+  .inv-card:hover .inv-icon { filter: grayscale(0); }
+
+  .inv-icon {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 16px;
+    filter: grayscale(0.4);
+    transition: filter 0.3s;
+  }
+  .inv-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+  .inv-desc {
+    font-size: 13px;
+    font-weight: 300;
+    color: rgba(240,237,232,0.5);
+    line-height: 1.7;
+  }
+
+  /* ══ OLDTIMER SECTION ════════════════════════════ */
+  .oldtimer {
+    padding: 80px;
+    background: var(--black);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    border-top: 1px solid var(--border);
+  }
+
+  .oldtimer-visual {
+    position: relative;
+  }
+  .oldtimer-main-img {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 100px;
+    position: relative;
+    overflow: hidden;
+  }
+  .oldtimer-main-img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(212,43,43,0.06), transparent 60%);
+  }
+  .oldtimer-badge {
+    position: absolute;
+    top: -12px;
+    right: 32px;
+    background: var(--red);
+    padding: 8px 20px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.15em;
+    color: var(--white);
+  }
+
+  .oldtimer-content .section-title { margin-bottom: 24px; }
+  .oldtimer-content p {
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(240,237,232,0.6);
+    margin-bottom: 16px;
+    line-height: 1.8;
+  }
+
+  /* ══ CONTACT ═════════════════════════════════════ */
+  .contact {
+    background: var(--dark2);
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .contact-info {
+    padding: 80px;
+    border-right: 1px solid var(--border);
+  }
+  .contact-info .section-title { margin-bottom: 40px; }
+
+  .contact-item {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 32px;
+    align-items: flex-start;
+  }
+  .contact-item-icon {
+    width: 44px;
+    height: 44px;
+    background: var(--red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .contact-item-body h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--grey);
+    margin-bottom: 4px;
+  }
+  .contact-item-body a,
+  .contact-item-body p {
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--white);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .contact-item-body a:hover { color: var(--red); }
+
+  .hours-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 8px 24px;
+    margin-top: 8px;
+  }
+  .hours-grid dt {
+    font-size: 14px;
+    color: var(--grey);
+    font-weight: 300;
+  }
+  .hours-grid dd {
+    font-size: 14px;
+    color: var(--white);
+    font-weight: 400;
+  }
+
+  .contact-form {
+    padding: 80px;
+    background: var(--dark);
+  }
+  .contact-form h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    margin-bottom: 32px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+  .form-group label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--grey);
+    display: block;
+    margin-bottom: 8px;
+  }
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    background: var(--dark2);
+    border: 1px solid var(--border2);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-size: 15px;
+    padding: 12px 16px;
+    outline: none;
+    transition: border-color 0.2s;
+    appearance: none;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    border-color: var(--red);
+  }
+  .form-group textarea { resize: vertical; min-height: 100px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  /* ══ FOOTER ══════════════════════════════════════ */
+  footer {
+    background: var(--black);
+    border-top: 1px solid var(--border);
+    padding: 48px 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .footer-logo .logo-main { font-size: 22px; }
+
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+    flex-wrap: wrap;
+  }
+  .footer-links a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--grey);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--white); }
+
+  .footer-copy {
+    font-size: 12px;
+    color: rgba(240,237,232,0.2);
+    letter-spacing: 0.05em;
+  }
+
+  /* ══ SCROLL REVEAL ════════════════════════════════ */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ══ MOBILE ══════════════════════════════════════ */
+  @media (max-width: 900px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .hero-content { padding: 0 24px 80px; }
+    .hero h1 { font-size: 72px; }
+    .hero-stats { display: none; }
+    .highlight-bar { flex-wrap: wrap; gap: 16px; padding: 16px 24px; }
+    .new-banner { margin: 32px 24px; }
+    .services { padding: 48px 24px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .about { grid-template-columns: 1fr; }
+    .about-visual { min-height: 260px; }
+    .about-big-num { font-size: 120px; }
+    .about-content { padding: 48px 24px; }
+    .inventory { padding: 48px 24px; }
+    .inv-grid { grid-template-columns: 1fr 1fr; }
+    .oldtimer { grid-template-columns: 1fr; padding: 48px 24px; gap: 40px; }
+    .contact { grid-template-columns: 1fr; }
+    .contact-info, .contact-form { padding: 48px 24px; }
+    .contact-info { border-right: none; border-bottom: 1px solid var(--border); }
+    .form-row { grid-template-columns: 1fr; }
+    footer { padding: 32px 24px; flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="#" class="logo">
+    <span class="logo-main">City<span> Reifen</span></span>
+    <span class="logo-sub">KFZ Werkstatt · Wuppertal</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services" class="active">Leistungen</a></li>
+    <li><a href="#about">Über uns</a></li>
+    <li><a href="#parts">Ersatzteile</a></li>
+    <li><a href="#oldtimer">Oldtimer</a></li>
+    <li><a href="#contact">Kontakt</a></li>
+    <li><a href="#contact">Anfahrt</a></li>
+  </ul>
+  <a href="tel:+49" class="nav-phone">☎ Jetzt anrufen</a>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+
+  <!-- Tire SVG watermark -->
+  <svg class="hero-tire" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="100" cy="100" r="95" stroke="white" stroke-width="2"/>
+    <circle cx="100" cy="100" r="80" stroke="white" stroke-width="1.5"/>
+    <circle cx="100" cy="100" r="50" stroke="white" stroke-width="4"/>
+    <circle cx="100" cy="100" r="38" stroke="white" stroke-width="1"/>
+    <!-- Tread blocks -->
+    <g fill="white">
+      <rect x="97" y="5" width="6" height="14" rx="1"/>
+      <rect x="97" y="5" width="6" height="14" rx="1" transform="rotate(30 100 100)"/>
+      <rect x="97" y="5" width="6" height="14" rx="1" transform="rotate(60 100 100)"/>
+      <rect x="97" y="5" width="6" height="14" rx="1" transform="rotate(90 100 100)"/>
+      <rect x="97" y="5" width="6" height="14" rx="1" transform="rotate(120 100 100)"/>
+      <rect x="97" y="5" width="6" height="14" rx="1" transform="rotate(150 100 100)"/>
+      <rect x="97" y="5" width="6" height="14" rx="1" transform="rotate(180 100 100)"/>
+      <rect x="97" y="5" width="6" height="14" rx="1" transform="rotate(210 100 100)"/>
+      <rect x="97" y="5" width="6" height="14" rx="1" transform="rotate(240 100 100)"/>
+      <rect x="97" y="5" width="6" height="14" rx="1" transform="rotate(270 100 100)"/>
+      <rect x="97" y="5" width="6" height="14" rx="1" transform="rotate(300 100 100)"/>
+      <rect x="97" y="5" width="6" height="14" rx="1" transform="rotate(330 100 100)"/>
+    </g>
+    <!-- Spokes -->
+    <g stroke="white" stroke-width="1.2" opacity="0.5">
+      <line x1="100" y1="62" x2="100" y2="38"/>
+      <line x1="100" y1="62" x2="100" y2="38" transform="rotate(45 100 100)"/>
+      <line x1="100" y1="62" x2="100" y2="38" transform="rotate(90 100 100)"/>
+      <line x1="100" y1="62" x2="100" y2="38" transform="rotate(135 100 100)"/>
+      <line x1="100" y1="62" x2="100" y2="38" transform="rotate(180 100 100)"/>
+      <line x1="100" y1="62" x2="100" y2="38" transform="rotate(225 100 100)"/>
+      <line x1="100" y1="62" x2="100" y2="38" transform="rotate(270 100 100)"/>
+      <line x1="100" y1="62" x2="100" y2="38" transform="rotate(315 100 100)"/>
+    </g>
+  </svg>
+
+  <div class="hero-content">
+    <p class="hero-tag">Wuppertal · Seit über 40 Jahren</p>
+    <h1>
+      CITY<br>
+      <span class="red">REIFEN</span><br>
+      <span class="outline">WERKSTATT</span>
+    </h1>
+    <div class="hero-divider"></div>
+    <p class="hero-desc">
+      <strong>Geht nicht, gibt's nicht.</strong> Von der Inspektion bis zur Oldtimer-Restauration – wir lösen jedes Problem rund ums Fahrzeug. Reifenhandel, Ersatzteile und KFZ-Verkauf im Herzen von Wuppertal.
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-red">Termin anfragen</a>
+      <a href="#services" class="btn-ghost">Unsere Leistungen</a>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div>
+      <span class="stat-num">40<span>+</span></span>
+      <span class="stat-label">Jahre Erfahrung</span>
+    </div>
+    <div>
+      <span class="stat-num">100<span>%</span></span>
+      <span class="stat-label">Einsatz für Sie</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── HIGHLIGHT BAR ── -->
+<div class="highlight-bar">
+  <div class="highlight-item">Reifenhandel & Montage</div>
+  <div class="highlight-sep"></div>
+  <div class="highlight-item">KFZ-Reparaturen aller Art</div>
+  <div class="highlight-sep"></div>
+  <div class="highlight-item">Oldtimer & Youngtimer</div>
+  <div class="highlight-sep"></div>
+  <div class="highlight-item">Ersatzteile & Motoren</div>
+  <div class="highlight-sep"></div>
+  <div class="highlight-item">Pflanzenöl-Umrüstung NEU</div>
+</div>
+
+<!-- ── NEW: PFLANZENÖL ── -->
+<div class="new-banner reveal">
+  <div class="new-label">NEU</div>
+  <div class="new-text">
+    <h3>🌿 Pflanzenöl-Umrüstung – Jetzt verfügbar</h3>
+    <p>Wir rüsten Ihr Fahrzeug auf den Betrieb mit Pflanzenöl um. Wir verwenden ausschließlich deutsche Qualitätsprodukte mit <strong>TÜV-Zertifikat</strong>. Ramweltschonend, wirtschaftlich, zukunftssicher. Weitere Infos auf Anfrage.</p>
+  </div>
+</div>
+
+<!-- ── SERVICES ── -->
+<section class="services" id="services">
+  <p class="section-label">Was wir tun</p>
+  <h2 class="section-title">Unsere<br><span>Leistungen</span></h2>
+
+  <div class="services-grid">
+
+    <div class="service-card reveal">
+      <span class="service-num">01</span>
+      <span class="service-icon">🔧</span>
+      <div class="service-title">KFZ-Reparaturen</div>
+      <div class="service-desc">Vollständige Fahrzeugreparaturen – von der Bremse bis zum Motor. Für alle gängigen Fahrzeugmarken und Modelle. Schnell, zuverlässig, fair bepreist.</div>
+      <a href="#contact" class="service-link">Termin buchen</a>
+    </div>
+
+    <div class="service-card reveal">
+      <span class="service-num">02</span>
+      <span class="service-icon">🏎️</span>
+      <div class="service-title">Reifenhandel & Montage</div>
+      <div class="service-desc">Große Auswahl an Sommer-, Winter- und Ganzjahresreifen. Fachmännische Montage, Wuchten und Lagerung. Beratung inklusive.</div>
+      <a href="#contact" class="service-link">Reifen anfragen</a>
+    </div>
+
+    <div class="service-card reveal">
+      <span class="service-num">03</span>
+      <span class="service-icon">🚗</span>
+      <div class="service-title">KFZ-Verkauf</div>
+      <div class="service-desc">Gebrauchtwagen aus erster Hand. Sorgfältig geprüfte Fahrzeuge mit vollständiger Geschichte. Aktuelle Angebote auf Anfrage.</div>
+      <a href="#contact" class="service-link">Fahrzeuge anfragen</a>
+    </div>
+
+    <div class="service-card reveal">
+      <span class="service-num">04</span>
+      <span class="service-icon">🧩</span>
+      <div class="service-title">Ersatzteile</div>
+      <div class="service-desc">Über 20 Jahre gesammelte Ersatzteile für fast alle Fahrzeugtypen. Front-, Heck- und Seitenscheiben. Gebrauchte Motoren & Zylinderköpfe.</div>
+      <a href="#parts" class="service-link">Teile anfragen</a>
+    </div>
+
+    <div class="service-card reveal">
+      <span class="service-num">05</span>
+      <span class="service-icon">🏛️</span>
+      <div class="service-title">Oldtimer & Youngtimer</div>
+      <div class="service-desc">Restauration, Wartung und Teileversorgung für Oldtimer und Youngtimer. Wir kennen die Eigenheiten klassischer Fahrzeuge und lieben die Herausforderung.</div>
+      <a href="#oldtimer" class="service-link">Mehr erfahren</a>
+    </div>
+
+    <div class="service-card reveal">
+      <span class="service-num">06</span>
+      <span class="service-icon">🛠️</span>
+      <div class="service-title">Allgemeiner Service</div>
+      <div class="service-desc">Inspektion, Ölwechsel, TÜV-Vorbereitung, Hauptuntersuchung und mehr. Alles aus einer Hand. Ungewöhnliche Anfragen ausdrücklich erwünscht.</div>
+      <a href="#contact" class="service-link">Kontakt aufnehmen</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section class="about" id="about">
+  <div class="about-visual">
+    <div class="about-visual-inner">
+      <span class="about-big-num">40</span>
+      <span class="about-big-label">Jahre Erfahrung</span>
+    </div>
+    <div class="about-visual-accent"></div>
+  </div>
+  <div class="about-content">
+    <p class="section-label">Über uns</p>
+    <h2 class="section-title" style="font-size:48px;margin-bottom:28px;">Wer wir<br><span>sind</span></h2>
+    <p>City Reifen ist seit über <strong>40 Jahren</strong> im Herzen von Wuppertal eine feste Größe in der KFZ-Branche. Was als Reifenhandel begann, ist heute eine Vollwerkstatt, die für nahezu jedes Fahrzeugproblem eine Lösung findet.</p>
+    <p>Unser Grundsatz: <strong>„Geht nicht, gibt's nicht."</strong> Ob alltägliche Reparatur, seltenes Ersatzteil oder aufwendige Oldtimer-Restauration – wir gehen jede Herausforderung mit Erfahrung und Leidenschaft an.</p>
+
+    <ul class="usp-list">
+      <li class="usp-item reveal"><span class="usp-icon">✓</span> Über 40 Jahre Erfahrung in Wuppertal</li>
+      <li class="usp-item reveal"><span class="usp-icon">✓</span> Ersatzteile für Raritäten, Youngtimer & Oldtimer</li>
+      <li class="usp-item reveal"><span class="usp-icon">✓</span> Große Lagerbestände – auch seltene Scheiben & Motoren</li>
+      <li class="usp-item reveal"><span class="usp-icon">✓</span> Ungewöhnliche Anfragen ausdrücklich erwünscht</li>
+      <li class="usp-item reveal"><span class="usp-icon">✓</span> Teile die wir nicht haben, können wir besorgen</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ── PARTS / INVENTORY ── -->
+<section class="inventory" id="parts">
+  <p class="section-label">Unser Lager</p>
+  <h2 class="section-title">Ersatzteile &<br><span>Komponenten</span></h2>
+
+  <div class="inv-grid">
+    <div class="inv-card reveal">
+      <span class="inv-icon">🪟</span>
+      <div class="inv-title">Scheiben</div>
+      <div class="inv-desc">Große Auswahl an Front-, Heck- und Seitenscheiben für viele Fahrzeugtypen.</div>
+    </div>
+    <div class="inv-card reveal">
+      <span class="inv-icon">⚙️</span>
+      <div class="inv-title">Motoren</div>
+      <div class="inv-desc">Gebrauchte Motoren und Zylinderköpfe für viele Fahrzeugmodelle – günstig und geprüft.</div>
+    </div>
+    <div class="inv-card reveal">
+      <span class="inv-icon">🧩</span>
+      <div class="inv-title">Karosserie & Anbauteile</div>
+      <div class="inv-desc">Karosserieteile, Stoßfänger, Türen und mehr aus unserem umfangreichen Lager.</div>
+    </div>
+    <div class="inv-card reveal">
+      <span class="inv-icon">🔩</span>
+      <div class="inv-title">Sonderteile & Raritäten</div>
+      <div class="inv-desc">20+ Jahre gesammelte Teile auch für seltene Modelle, Youngtimer und Oldtimer.</div>
+    </div>
+  </div>
+
+  <div style="margin-top:48px;display:flex;gap:16px;flex-wrap:wrap;" class="reveal">
+    <a href="#contact" class="btn-red">Teil anfragen</a>
+    <a href="Dokumente/ersatzteile27-06-04.pdf" class="btn-ghost" target="_blank">📄 Teileliste (PDF)</a>
+    <a href="Dokumente/Flyer_Webdownload.pdf" class="btn-ghost" target="_blank">📄 Werbeflyer (PDF)</a>
+  </div>
+</section>
+
+<!-- ── OLDTIMER ── -->
+<section class="oldtimer" id="oldtimer">
+  <div class="oldtimer-visual reveal">
+    <div class="oldtimer-main-img">
+      <span>🏛️</span>
+      <div class="oldtimer-badge">Restauration & Verkauf</div>
+    </div>
+  </div>
+  <div class="oldtimer-content">
+    <p class="section-label">Klassiker & Raritäten</p>
+    <h2 class="section-title">Oldtimer &<br><span>Youngtimer</span></h2>
+    <p>Wir sind eine der wenigen Werkstätten in Wuppertal, die sich mit echtem Herzblut um klassische Fahrzeuge kümmern. Egal ob Restauration, Wartung oder die Suche nach einem seltenen Teil – wir kennen uns aus.</p>
+    <p>Auf unserer Oldtimer-Seite finden Sie aktuelle Restaurationsprojekte und zum Verkauf stehende Klassiker. Schauen Sie rein – und sprechen Sie uns an, wenn Sie selbst einen Klassiker haben, der Liebe braucht.</p>
+    <div style="margin-top:32px;display:flex;gap:16px;flex-wrap:wrap;">
+      <a href="Oldtimer.html" class="btn-red">Oldtimer ansehen</a>
+      <a href="#contact" class="btn-ghost">Restauration anfragen</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section class="contact" id="contact">
+  <div class="contact-info">
+    <p class="section-label">Kontakt & Anfahrt</p>
+    <h2 class="section-title" style="font-size:52px;">Wir sind<br><span>für Sie da</span></h2>
+
+    <div class="contact-item reveal">
+      <div class="contact-item-icon">📍</div>
+      <div class="contact-item-body">
+        <h4>Adresse</h4>
+        <p>City Reifen Wuppertal<br>Im Herzen von Wuppertal</p>
+      </div>
+    </div>
+
+    <div class="contact-item reveal">
+      <div class="contact-item-icon">📞</div>
+      <div class="contact-item-body">
+        <h4>Telefon</h4>
+        <a href="tel:+49">Bitte auf der Website einsehen</a>
+      </div>
+    </div>
+
+    <div class="contact-item reveal">
+      <div class="contact-item-icon">🕐</div>
+      <div class="contact-item-body">
+        <h4>Öffnungszeiten</h4>
+        <dl class="hours-grid">
+          <dt>Mo – Fr</dt><dd>08:00 – 18:00 Uhr</dd>
+          <dt>Samstag</dt><dd>08:00 – 13:00 Uhr</dd>
+          <dt>Sonntag</dt><dd>Geschlossen</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="contact-item reveal">
+      <div class="contact-item-icon">🌐</div>
+      <div class="contact-item-body">
+        <h4>Website</h4>
+        <a href="http://www.city-reifen.de" target="_blank">www.city-reifen.de</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="contact-form">
+    <h3>Nachricht senden</h3>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Vorname</label>
+        <input type="text" placeholder="Max">
+      </div>
+      <div class="form-group">
+        <label>Nachname</label>
+        <input type="text" placeholder="Mustermann">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>E-Mail</label>
+      <input type="email" placeholder="max@beispiel.de">
+    </div>
+    <div class="form-group">
+      <label>Anliegen</label>
+      <select>
+        <option value="">— Bitte wählen —</option>
+        <option>Reparatur / Werkstatt</option>
+        <option>Reifenhandel & Montage</option>
+        <option>Ersatzteile anfragen</option>
+        <option>Oldtimer / Youngtimer</option>
+        <option>Fahrzeug kaufen</option>
+        <option>Pflanzenöl-Umrüstung</option>
+        <option>Sonstiges</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Nachricht</label>
+      <textarea placeholder="Beschreiben Sie Ihr Anliegen – ungewöhnliche Anfragen sind ausdrücklich willkommen."></textarea>
+    </div>
+    <button type="submit" class="btn-red" style="width:100%;border:none;cursor:pointer;font-size:14px;padding:16px;">
+      Nachricht absenden →
+    </button>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo">
+    <a href="#" class="logo">
+      <span class="logo-main">City<span> Reifen</span></span>
+      <span class="logo-sub">KFZ Werkstatt · Wuppertal</span>
+    </a>
+  </div>
+  <ul class="footer-links">
+    <li><a href="Reparaturen.html">Reparaturen</a></li>
+    <li><a href="Reifenhandel.html">Reifenhandel</a></li>
+    <li><a href="Ersatzteile.html">Ersatzteile</a></li>
+    <li><a href="Oldtimer.html">Oldtimer</a></li>
+    <li><a href="KFZ_Verkauf.html">KFZ-Verkauf</a></li>
+    <li><a href="Service.html">Service</a></li>
+    <li><a href="Kontakt.html">Impressum</a></li>
+    <li><a href="Anfahrt.html">Anfahrt</a></li>
+  </ul>
+  <p class="footer-copy">© 2025 City Reifen Wuppertal. Alle Rechte vorbehalten.</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), 80 * (entry.target.dataset.delay || 0));
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  revealEls.forEach(el => io.observe(el));
+
+  // Active nav on scroll
+  const sections = document.querySelectorAll('section[id], div[id]');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(sec => {
+      if (window.scrollY >= sec.offsetTop - 120) current = sec.id;
+    });
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+</script>
+
+</body>
+</html>
