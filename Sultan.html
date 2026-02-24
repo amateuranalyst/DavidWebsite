@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sultan – Arabische Küche Wuppertal</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Neue+Haas+Grotesk+Display:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C8973A;
+    --gold-light: #E8B96A;
+    --cream: #F5EFE4;
+    --dark: #0F0C08;
+    --dark-mid: #1A1510;
+    --dark-card: #231E17;
+    --text-muted: #8A7D6A;
+    --border: rgba(200,151,58,0.2);
+  }
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+background: var(–dark);
+color: var(–cream);
+font-family: ‘DM Sans’, sans-serif;
+font-weight: 300;
+overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+padding: 1.25rem 3rem;
+display: flex; align-items: center; justify-content: space-between;
+background: linear-gradient(to bottom, rgba(15,12,8,0.95), transparent);
+backdrop-filter: blur(12px);
+}
+.nav-logo {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 2rem; font-weight: 300; letter-spacing: 0.15em;
+color: var(–gold); text-decoration: none;
+}
+.nav-logo span { font-style: italic; color: var(–cream); }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+.nav-links a {
+color: var(–cream); text-decoration: none;
+font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase;
+opacity: 0.75; transition: opacity 0.2s, color 0.2s;
+}
+.nav-links a:hover { opacity: 1; color: var(–gold); }
+.nav-phone {
+font-size: 0.82rem; letter-spacing: 0.05em;
+color: var(–gold); text-decoration: none;
+border: 1px solid var(–border);
+padding: 0.5rem 1.1rem; border-radius: 2rem;
+transition: all 0.25s;
+}
+.nav-phone:hover { background: var(–gold); color: var(–dark); border-color: var(–gold); }
+
+/* ── HERO ── */
+.hero {
+height: 100vh; position: relative;
+display: flex; flex-direction: column;
+align-items: center; justify-content: center;
+overflow: hidden;
+}
+.hero-bg {
+position: absolute; inset: 0;
+background:
+radial-gradient(ellipse 60% 70% at 50% 40%, rgba(200,151,58,0.08) 0%, transparent 70%),
+radial-gradient(ellipse 100% 100% at 50% 50%, rgba(15,12,8,1) 60%, transparent 100%);
+}
+.hero-pattern {
+position: absolute; inset: 0; opacity: 0.04;
+background-image:
+repeating-linear-gradient(45deg, var(–gold) 0, var(–gold) 1px, transparent 0, transparent 50%),
+repeating-linear-gradient(-45deg, var(–gold) 0, var(–gold) 1px, transparent 0, transparent 50%);
+background-size: 24px 24px;
+}
+.hero-content { position: relative; text-align: center; }
+.hero-eyebrow {
+font-size: 0.75rem; letter-spacing: 0.3em; text-transform: uppercase;
+color: var(–gold); margin-bottom: 1.5rem;
+animation: fadeUp 0.8s ease both;
+}
+.hero-title {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: clamp(5rem, 14vw, 11rem);
+font-weight: 300; line-height: 0.9;
+color: var(–cream);
+animation: fadeUp 0.8s 0.15s ease both;
+}
+.hero-title em { font-style: italic; color: var(–gold); }
+.hero-subtitle {
+margin-top: 1.5rem; font-size: 1rem;
+color: var(–text-muted); letter-spacing: 0.05em; max-width: 420px; margin-inline: auto;
+animation: fadeUp 0.8s 0.3s ease both;
+}
+.hero-cta {
+margin-top: 3rem; display: flex; gap: 1rem; justify-content: center;
+animation: fadeUp 0.8s 0.45s ease both;
+}
+.btn-primary {
+background: var(–gold); color: var(–dark);
+padding: 0.85rem 2.2rem; border-radius: 3rem;
+text-decoration: none; font-size: 0.85rem;
+letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500;
+transition: all 0.25s;
+}
+.btn-primary:hover { background: var(–gold-light); transform: translateY(-2px); }
+.btn-outline {
+border: 1px solid var(–border); color: var(–cream);
+padding: 0.85rem 2.2rem; border-radius: 3rem;
+text-decoration: none; font-size: 0.85rem;
+letter-spacing: 0.1em; text-transform: uppercase;
+transition: all 0.25s;
+}
+.btn-outline:hover { border-color: var(–gold); color: var(–gold); transform: translateY(-2px); }
+.hero-scroll {
+position: absolute; bottom: 2.5rem; left: 50%;
+transform: translateX(-50%);
+display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+opacity: 0.4; animation: bounce 2s infinite;
+}
+.hero-scroll span { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; }
+.hero-scroll-line { width: 1px; height: 40px; background: var(–gold); }
+
+/* ── DISCOUNTS BANNER ── */
+.discounts {
+background: var(–dark-mid);
+border-top: 1px solid var(–border); border-bottom: 1px solid var(–border);
+padding: 1.2rem 3rem;
+display: flex; justify-content: center; gap: 4rem; align-items: center;
+}
+.discount-item { text-align: center; }
+.discount-pct {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 2.5rem; color: var(–gold); line-height: 1;
+}
+.discount-label { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(–text-muted); margin-top: 0.2rem; }
+.discount-divider { width: 1px; height: 50px; background: var(–border); }
+
+/* ── SECTION COMMONS ── */
+section { padding: 7rem 3rem; }
+.section-label {
+font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase;
+color: var(–gold); margin-bottom: 0.75rem;
+}
+.section-title {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 300;
+line-height: 1.1;
+}
+.section-title em { font-style: italic; color: var(–gold); }
+
+/* ── MENU ── */
+.menu-section { max-width: 1200px; margin-inline: auto; }
+.menu-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3.5rem; }
+
+.category-tabs {
+display: flex; gap: 0; overflow-x: auto; scrollbar-width: none;
+border-bottom: 1px solid var(–border);
+margin-bottom: 3rem;
+}
+.category-tabs::-webkit-scrollbar { display: none; }
+.tab-btn {
+background: none; border: none; cursor: pointer;
+padding: 0.75rem 1.5rem;
+font-family: ‘DM Sans’, sans-serif; font-size: 0.8rem;
+letter-spacing: 0.1em; text-transform: uppercase;
+color: var(–text-muted); white-space: nowrap;
+border-bottom: 2px solid transparent; margin-bottom: -1px;
+transition: all 0.2s;
+}
+.tab-btn.active, .tab-btn:hover { color: var(–gold); border-bottom-color: var(–gold); }
+
+.menu-category { display: none; }
+.menu-category.active { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5px; }
+
+.menu-item {
+background: var(–dark-card);
+padding: 1.75rem;
+border: 1px solid var(–border);
+transition: all 0.25s;
+cursor: pointer;
+position: relative; overflow: hidden;
+}
+.menu-item::before {
+content: ‘’; position: absolute; inset: 0;
+background: linear-gradient(135deg, rgba(200,151,58,0.06) 0%, transparent 60%);
+opacity: 0; transition: opacity 0.3s;
+}
+.menu-item:hover::before { opacity: 1; }
+.menu-item:hover { border-color: rgba(200,151,58,0.5); }
+.menu-item-name {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 1.25rem; font-weight: 400; margin-bottom: 0.4rem;
+}
+.menu-item-desc { font-size: 0.8rem; color: var(–text-muted); line-height: 1.6; margin-bottom: 1rem; }
+.menu-item-footer { display: flex; align-items: center; justify-content: space-between; }
+.menu-item-price { font-size: 1rem; color: var(–gold); font-weight: 500; }
+.add-btn {
+width: 32px; height: 32px; border-radius: 50%;
+background: none; border: 1px solid var(–border);
+color: var(–cream); cursor: pointer; font-size: 1.2rem;
+display: flex; align-items: center; justify-content: center;
+transition: all 0.2s;
+}
+.add-btn:hover { background: var(–gold); border-color: var(–gold); color: var(–dark); }
+
+/* ── INFO STRIP ── */
+.info-strip {
+background: var(–dark-mid);
+border-top: 1px solid var(–border); border-bottom: 1px solid var(–border);
+padding: 4rem 3rem;
+display: grid; grid-template-columns: repeat(3, 1fr);
+max-width: 900px; margin-inline: auto; gap: 2rem;
+text-align: center;
+}
+.info-item-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+.info-item-title {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 1.3rem; margin-bottom: 0.4rem;
+}
+.info-item-text { font-size: 0.8rem; color: var(–text-muted); line-height: 1.7; }
+
+/* ── FOOTER ── */
+footer {
+background: var(–dark-mid);
+border-top: 1px solid var(–border);
+padding: 3rem;
+display: flex; flex-direction: column; align-items: center; gap: 1.5rem;
+text-align: center;
+}
+.footer-logo {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 2.5rem; font-weight: 300; color: var(–gold); letter-spacing: 0.15em;
+}
+.footer-links { display: flex; gap: 2rem; }
+.footer-links a { color: var(–text-muted); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
+.footer-links a:hover { color: var(–gold); }
+.footer-copy { font-size: 0.75rem; color: var(–text-muted); opacity: 0.6; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(24px); }
+to { opacity: 1; transform: translateY(0); }
+}
+@keyframes bounce {
+0%, 100% { transform: translateX(-50%) translateY(0); }
+50% { transform: translateX(-50%) translateY(8px); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+nav { padding: 1rem 1.5rem; }
+.nav-links { display: none; }
+section { padding: 5rem 1.5rem; }
+.discounts { gap: 2rem; flex-wrap: wrap; }
+.info-strip { grid-template-columns: 1fr; max-width: 100%; }
+.menu-header { flex-direction: column; gap: 1rem; align-items: flex-start; }
+.menu-category.active { grid-template-columns: 1fr; }
+}
+
+/* ── DECORATIVE ORNAMENT ── */
+.ornament {
+display: flex; align-items: center; gap: 1rem;
+margin: 2rem 0;
+}
+.ornament-line { flex: 1; height: 1px; background: var(–border); }
+.ornament-diamond { width: 8px; height: 8px; background: var(–gold); transform: rotate(45deg); }
+</style>
+
+</head>
+<body>
+
+<!-- NAV -->
+
+<nav>
+  <a href="#" class="nav-logo">Sul<span>tan</span></a>
+  <ul class="nav-links">
+    <li><a href="#menu">Speisekarte</a></li>
+    <li><a href="#info">Öffnungszeiten</a></li>
+    <li><a href="#info">Liefergebiet</a></li>
+    <li><a href="#info">Allergene</a></li>
+  </ul>
+  <a href="tel:020251986880" class="nav-phone">☎ 02025 198 6880</a>
+</nav>
+
+<!-- HERO -->
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Arabische Küche · Wuppertal</p>
+    <h1 class="hero-title">Sul<em>tan</em></h1>
+    <p class="hero-subtitle">Authentische syrische Spezialitäten – vom Drehspieß, Lavasteingrill und traditionellen Mezze</p>
+    <div class="hero-cta">
+      <a href="#menu" class="btn-primary">Jetzt bestellen</a>
+      <a href="#info" class="btn-outline">Mehr erfahren</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Entdecken</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- DISCOUNTS -->
+
+<div class="discounts">
+  <div class="discount-item">
+    <div class="discount-pct">10%</div>
+    <div class="discount-label">Rabatt auf Lieferungen</div>
+  </div>
+  <div class="discount-divider"></div>
+  <div class="discount-item">
+    <div class="discount-pct">15%</div>
+    <div class="discount-label">Rabatt für Selbstabholer</div>
+  </div>
+</div>
+
+<!-- MENU -->
+
+<section id="menu">
+  <div class="menu-section">
+    <div class="menu-header">
+      <div>
+        <p class="section-label">Unsere Küche</p>
+        <h2 class="section-title">Die Speise<em>karte</em></h2>
+      </div>
+    </div>
+
+```
+<!-- TABS -->
+<div class="category-tabs" id="tabs">
+  <button class="tab-btn active" data-cat="salate">Salate</button>
+  <button class="tab-btn" data-cat="vorspeisen">Vorspeisen</button>
+  <button class="tab-btn" data-cat="falafel">Falafel</button>
+  <button class="tab-btn" data-cat="schawarma">Schawarma</button>
+  <button class="tab-btn" data-cat="grill">Grillteller</button>
+  <button class="tab-btn" data-cat="rollen">Rollen</button>
+  <button class="tab-btn" data-cat="chicken">Chicken</button>
+  <button class="tab-btn" data-cat="pizza">Pizza</button>
+  <button class="tab-btn" data-cat="arabpizza">Arabische Pizza</button>
+  <button class="tab-btn" data-cat="veganpizza">Vegane Pizza</button>
+  <button class="tab-btn" data-cat="beilagen">Beilagen</button>
+  <button class="tab-btn" data-cat="desserts">Desserts</button>
+  <button class="tab-btn" data-cat="getraenke">Getränke</button>
+</div>
+
+<!-- SALATE -->
+<div class="menu-category active" id="cat-salate">
+  <div class="menu-item">
+    <div class="menu-item-name">Gartensalat</div>
+    <div class="menu-item-desc">Eisbergsalat, Tomate, Gurke, Zwiebel, Mais</div>
+    <div class="menu-item-footer"><span class="menu-item-price">6,90 €</span><button class="add-btn">+</button></div>
+  </div>
+  <div class="menu-item">
+    <div class="menu-item-name">Bauernsalat</div>
+    <div class="menu-item-desc">Gemischter Salat mit Weichkäse und Oliven</div>
+    <div class="menu-item-footer"><span class="menu-item-price">7,90 €</span><button class="add-btn">+</button></div>
+  </div>
+  <div class="menu-item">
+    <div class="menu-item-name">Gemischter Salat</div>
+    <div class="menu-item-desc">Mit Eisbergsalat, Tomaten, Gurken, Thunfisch, Käse, Zwiebeln und Mais</div>
+    <div class="menu-item-footer"><span class="menu-item-price">7,90 €</span><button class="add-btn">+</button></div>
+  </div>
+  <div class="menu-item">
+    <div class="menu-item-name">Sultans Brotsalat (Fattousch)</div>
+    <div class="menu-item-desc">Geröstete Fladenbrotstückchen, Tomaten, Gurken, Zwiebeln, Minze und Olivenöl-Zitronen-Dressing</div>
+    <div class="menu-item-footer"><span class="menu-item-price">7,90 €</span><button class="add-btn">+</button></div>
+  </div>
+  <div class="menu-item">
+    <div class="menu-item-name">Sultans Petersiliensalat (Taboule)</div>
+    <div class="menu-item-desc">Mit Bulgur, Tomate, Gurke und einem Olivenöl-Zitronen-Dressing</div>
+    <div class="menu-item-footer"><span class="menu-item-price">7,90 €</span><button class="add-btn">+</button></div>
+  </div>
+</div>
+
+<!-- VORSPEISEN -->
+<div class="menu-category" id="cat-vorspeisen">
+  <div class="menu-item"><div class="menu-item-name">Arabische Linsensuppe</div><div class="menu-item-desc">Mit gerösteten Fladenbrotstücken</div><div class="menu-item-footer"><span class="menu-item-price">5,90 – 6,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Hummus</div><div class="menu-item-desc">Pürierte Kichererbsen mit Sesampaste und Olivenöl</div><div class="menu-item-footer"><span class="menu-item-price">4,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Avocado Hummus</div><div class="menu-item-desc">Kichererbsen mit Sesampaste, Avocado und Olivenöl</div><div class="menu-item-footer"><span class="menu-item-price">5,50 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Bärlauch Hummus</div><div class="menu-item-desc">Kichererbsen mit Sesampaste, Bärlauch und Olivenöl</div><div class="menu-item-footer"><span class="menu-item-price">5,50 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Hummus mit getrockneten Tomaten</div><div class="menu-item-desc">Kichererbsen mit Sesampaste, getrockneten Tomaten und Olivenöl</div><div class="menu-item-footer"><span class="menu-item-price">5,50 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Mutabbal</div><div class="menu-item-desc">Gegrillte Auberginen mit Sesampaste und Olivenöl</div><div class="menu-item-footer"><span class="menu-item-price">5,50 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Muhammara</div><div class="menu-item-desc">Geröstete Paprika, Walnüsse, Granatapfelsirup und Chili</div><div class="menu-item-footer"><span class="menu-item-price">5,50 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Gemischte Vorspeisenplatte</div><div class="menu-item-desc">Hummus, Mutabbal, Muhammara, Olivendip & Bohnen mit Olivenöl</div><div class="menu-item-footer"><span class="menu-item-price">6,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Kibbeh – Bulgur-Hackbällchen</div><div class="menu-item-desc">4 Stück mit Salat & ein Dip nach Wahl</div><div class="menu-item-footer"><span class="menu-item-price">12,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Kibbeh – Bulgur-Spinat-Kartoffel</div><div class="menu-item-desc">4 Stück mit Salat & ein Dip nach Wahl</div><div class="menu-item-footer"><span class="menu-item-price">12,90 €</span><button class="add-btn">+</button></div></div>
+</div>
+
+<!-- FALAFEL -->
+<div class="menu-category" id="cat-falafel">
+  <div class="menu-item"><div class="menu-item-name">Falafel-Rolle</div><div class="menu-item-desc">Knusprige Falafel-Bällchen mit Gemüse und Tahini im Fladenbrot</div><div class="menu-item-footer"><span class="menu-item-price">4,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Falafel-Teller</div><div class="menu-item-desc">8 Falafelbällchen mit Salat & Hummus</div><div class="menu-item-footer"><span class="menu-item-price">8,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Sultan Falafel XL</div><div class="menu-item-desc">Große Falafelrolle, geschnitten, mit zusätzlichen Falafelbällchen</div><div class="menu-item-footer"><span class="menu-item-price">9,50 €</span><button class="add-btn">+</button></div></div>
+</div>
+
+<!-- SCHAWARMA -->
+<div class="menu-category" id="cat-schawarma">
+  <div class="menu-item"><div class="menu-item-name">Schawarma-Rolle</div><div class="menu-item-desc">Nach syrischer Art, mit Salat und Sauce (Hähnchen)</div><div class="menu-item-footer"><span class="menu-item-price">6,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Schawarma-Teller</div><div class="menu-item-desc">Mit Beilage nach Wahl, Salat und Sauce (Hähnchen)</div><div class="menu-item-footer"><span class="menu-item-price">11,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Ofen-Schawarma</div><div class="menu-item-desc">Reis oder Bulgur unter Fladenbrotstücken mit heller Sauce, Fleisch und Käse</div><div class="menu-item-footer"><span class="menu-item-price">9,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Sultan Schawarma</div><div class="menu-item-desc">In frisch gebackenem Ofenbrot, geschnitten mit Salat und Dip</div><div class="menu-item-footer"><span class="menu-item-price">11,90 €</span><button class="add-btn">+</button></div></div>
+</div>
+
+<!-- GRILL -->
+<div class="menu-category" id="cat-grill">
+  <div class="menu-item"><div class="menu-item-name">Hähnchenspieß (2 Stück)</div><div class="menu-item-desc">Zartes Hähnchenfleisch in würziger Marinade, vom Lavasteingrill</div><div class="menu-item-footer"><span class="menu-item-price">13,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Rinderhackspieß (2 Stück)</div><div class="menu-item-desc">Rinderhack mit Gewürzen und Petersilie, vom Grill</div><div class="menu-item-footer"><span class="menu-item-price">13,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Lammfleischspieß (2 Stück)</div><div class="menu-item-desc">Zartes Lammfleisch in würziger Marinade, vom Lavasteingrill</div><div class="menu-item-footer"><span class="menu-item-price">15,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Gemischter Grillteller</div><div class="menu-item-desc">Je ein Hähnchen-, Rinderhack- und Lammfleischspieß</div><div class="menu-item-footer"><span class="menu-item-price">17,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Sultans Grillgenuss für Zwei</div><div class="menu-item-desc">Gemischte Platte mit Lamm, Rinderhack, Hähnchen, Grillgemüse, Beilage, Dip, Vorspeise, Salat & 1L Getränk</div><div class="menu-item-footer"><span class="menu-item-price">44,99 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Grillplatte für 4 Personen</div><div class="menu-item-desc">Je vier Hähnchen-, Rinderhack- und Lammspieße, zwei Beilagen, Salat und Sauce</div><div class="menu-item-footer"><span class="menu-item-price">65,00 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Vegane Hackspieße</div><div class="menu-item-desc">Zwei Spieße aus Sonnenblumenproteinen mit Beilage, Hummus oder Auberginencreme</div><div class="menu-item-footer"><span class="menu-item-price">13,90 €</span><button class="add-btn">+</button></div></div>
+</div>
+
+<!-- ROLLEN -->
+<div class="menu-category" id="cat-rollen">
+  <div class="menu-item"><div class="menu-item-name">Hähnchenspieß Rolle</div><div class="menu-item-desc">Gegrillter Hähnchenspieß im Fladenbrot</div><div class="menu-item-footer"><span class="menu-item-price">6,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Rinderhackspieß Rolle</div><div class="menu-item-desc">Gegrillter Rinderhackspieß im Fladenbrot</div><div class="menu-item-footer"><span class="menu-item-price">6,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Lammspieß Rolle</div><div class="menu-item-desc">Gegrillter Lammspieß im Fladenbrot</div><div class="menu-item-footer"><span class="menu-item-price">7,50 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Schawarma-Rolle Vegan</div><div class="menu-item-desc">Aus Sojastreifen</div><div class="menu-item-footer"><span class="menu-item-price">6,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Hack-Rolle Vegan</div><div class="menu-item-desc">Aus Sonnenblumenproteinen</div><div class="menu-item-footer"><span class="menu-item-price">6,30 €</span><button class="add-btn">+</button></div></div>
+</div>
+
+<!-- CHICKEN -->
+<div class="menu-category" id="cat-chicken">
+  <div class="menu-item"><div class="menu-item-name">Crispy Teller</div><div class="menu-item-desc">Panierte Hähnchenbrustfiletstreifen, knusprig frittiert</div><div class="menu-item-footer"><span class="menu-item-price">12,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Chicken Box</div><div class="menu-item-desc">Acht Chickenwings mit einer Beilage nach Wahl</div><div class="menu-item-footer"><span class="menu-item-price">11,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Broasted Fried Chicken</div><div class="menu-item-desc">Mit eingelegtem Gemüse, Knoblauchsauce und Pommes</div><div class="menu-item-footer"><span class="menu-item-price">13,90 – 24,00 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Chicken Tenders</div><div class="menu-item-desc">Mit Pommes serviert</div><div class="menu-item-footer"><span class="menu-item-price">16,00 – 25,00 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Nuggets</div><div class="menu-item-desc"></div><div class="menu-item-footer"><span class="menu-item-price">5,90 – 12,00 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Chicken Wings</div><div class="menu-item-desc">Mit Pommes serviert</div><div class="menu-item-footer"><span class="menu-item-price">16,00 – 28,00 €</span><button class="add-btn">+</button></div></div>
+</div>
+
+<!-- PIZZA -->
+<div class="menu-category" id="cat-pizza">
+  <div class="menu-item"><div class="menu-item-name">Margherita</div><div class="menu-item-desc">Tomatensauce, Mozzarella, Oregano</div><div class="menu-item-footer"><span class="menu-item-price">6,90 – 7,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Champignon</div><div class="menu-item-desc">Tomatensauce, Mozzarella, Champignons</div><div class="menu-item-footer"><span class="menu-item-price">7,90 – 9,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Spinat</div><div class="menu-item-desc">Tomatensauce, Mozzarella, Spinat</div><div class="menu-item-footer"><span class="menu-item-price">8,90 – 10,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Salami vom Rind</div><div class="menu-item-desc">Tomatensauce, Mozzarella, Rindersalami</div><div class="menu-item-footer"><span class="menu-item-price">8,90 – 10,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Sucuk</div><div class="menu-item-desc">Tomatensauce, Mozzarella, Sucuk</div><div class="menu-item-footer"><span class="menu-item-price">9,90 – 11,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Thunfisch & Zwiebel</div><div class="menu-item-desc">Tomatensauce, Mozzarella, Thunfisch, Zwiebel</div><div class="menu-item-footer"><span class="menu-item-price">9,90 – 11,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Vier Jahreszeiten (Veggie)</div><div class="menu-item-desc">Tomaten, Champignons, Paprika und Oliven</div><div class="menu-item-footer"><span class="menu-item-price">9,90 – 11,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Vier Jahreszeiten (Fleisch)</div><div class="menu-item-desc">Rindersalami, Rinderhack, Sucuk und Hähnchen-Schawarma</div><div class="menu-item-footer"><span class="menu-item-price">9,90 – 11,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Schawarma-Pizza</div><div class="menu-item-desc">Tomatensauce, Mozzarella und Schawarma</div><div class="menu-item-footer"><span class="menu-item-price">10,90 – 12,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Family Pizza-Blech</div><div class="menu-item-desc">Mit 4 Zutaten nach Wahl</div><div class="menu-item-footer"><span class="menu-item-price">36,90 €</span><button class="add-btn">+</button></div></div>
+</div>
+
+<!-- ARAB PIZZA -->
+<div class="menu-category" id="cat-arabpizza">
+  <div class="menu-item"><div class="menu-item-name">Manaisch</div><div class="menu-item-desc">Thymian, Sesam, Sumak-Gewürz und Olivenöl</div><div class="menu-item-footer"><span class="menu-item-price">3,50 – 4,50 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Paprika-Walnuss-Sauce</div><div class="menu-item-desc">Geröstete Paprika, Walnüsse, Granatapfelsirup, Chili</div><div class="menu-item-footer"><span class="menu-item-price">6,90 – 7,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Frühlingspizza</div><div class="menu-item-desc">Oliven, Mais, Weichkäse, Tomaten und Paprika</div><div class="menu-item-footer"><span class="menu-item-price">8,90 – 9,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Spinat-Walnuss-Granatapfel</div><div class="menu-item-desc">Mit Zwiebeln</div><div class="menu-item-footer"><span class="menu-item-price">8,90 – 9,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Hackfleisch vom Rind</div><div class="menu-item-desc">Mit Tomatensauce und Pinienkernen</div><div class="menu-item-footer"><span class="menu-item-price">9,90 – 10,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Sultan Falafel Pizza</div><div class="menu-item-desc">Mit Sesamcreme und üppiger Garnitur</div><div class="menu-item-footer"><span class="menu-item-price">9,90 – 11,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Minze-Weichkäse Pizza</div><div class="menu-item-desc">Mit Tomatenstückchen und schwarzen Oliven</div><div class="menu-item-footer"><span class="menu-item-price">8,90 – 9,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Pizza 1001 Nacht</div><div class="menu-item-desc">Frischkäse, Mozzarella, Honig, Rosenmarmelade, Feigen, Maulbeere, Pistazien, Walnüsse und Mandeln</div><div class="menu-item-footer"><span class="menu-item-price">10,90 – 11,90 €</span><button class="add-btn">+</button></div></div>
+</div>
+
+<!-- VEGAN PIZZA -->
+<div class="menu-category" id="cat-veganpizza">
+  <div class="menu-item"><div class="menu-item-name">Margherita Vegan</div><div class="menu-item-desc">Tomatensauce, veganer Käse und Oregano</div><div class="menu-item-footer"><span class="menu-item-price">7,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Champignon Vegan</div><div class="menu-item-desc">Tomatensauce, veganer Käse und Champignons</div><div class="menu-item-footer"><span class="menu-item-price">9,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Spinat Vegan</div><div class="menu-item-desc">Tomatensauce, veganer Käse und Spinat</div><div class="menu-item-footer"><span class="menu-item-price">9,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Schawarma Vegan</div><div class="menu-item-desc">Tomatensauce, veganer Käse und vegane Schawarma</div><div class="menu-item-footer"><span class="menu-item-price">10,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Vier Jahreszeiten Vegan</div><div class="menu-item-desc">Tomatensauce, veganer Käse, Auberginen, Zucchini und Champignons</div><div class="menu-item-footer"><span class="menu-item-price">10,90 €</span><button class="add-btn">+</button></div></div>
+</div>
+
+<!-- BEILAGEN -->
+<div class="menu-category" id="cat-beilagen">
+  <div class="menu-item"><div class="menu-item-name">Pommes</div><div class="menu-item-desc"></div><div class="menu-item-footer"><span class="menu-item-price">3,00 – 4,00 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Bunter Basmati-Reis</div><div class="menu-item-desc"></div><div class="menu-item-footer"><span class="menu-item-price">3,50 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Bulgur</div><div class="menu-item-desc">Weizengriess</div><div class="menu-item-footer"><span class="menu-item-price">3,50 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Freekeh</div><div class="menu-item-desc">Früh geernteter Weizen</div><div class="menu-item-footer"><span class="menu-item-price">4,50 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Saucen & Dips</div><div class="menu-item-desc">Ketchup, Mayo, Vegane Mayo · Knoblauch-Creme · Sesam-Joghurt · Süß-Sauer · BBQ · Curry</div><div class="menu-item-footer"><span class="menu-item-price">1,00 €</span><button class="add-btn">+</button></div></div>
+</div>
+
+<!-- DESSERTS -->
+<div class="menu-category" id="cat-desserts">
+  <div class="menu-item"><div class="menu-item-name">Arabische Knusperhäppchen</div><div class="menu-item-desc">Mit Pistazien, Cashewkernen und verschiedenen Nüssen</div><div class="menu-item-footer"><span class="menu-item-price">5,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Dark Chocolate Muffin</div><div class="menu-item-desc">Vegan</div><div class="menu-item-footer"><span class="menu-item-price">4,20 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Apfelkuchen</div><div class="menu-item-desc">Vegan</div><div class="menu-item-footer"><span class="menu-item-price">4,70 €</span><button class="add-btn">+</button></div></div>
+</div>
+
+<!-- GETRÄNKE -->
+<div class="menu-category" id="cat-getraenke">
+  <div class="menu-item"><div class="menu-item-name">Wasser Still 0,5L</div><div class="menu-item-desc"></div><div class="menu-item-footer"><span class="menu-item-price">2,00 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Ayran 0,25L / 1L</div><div class="menu-item-desc"></div><div class="menu-item-footer"><span class="menu-item-price">2,20 / 4,50 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Cola 0,33L / 1L</div><div class="menu-item-desc"></div><div class="menu-item-footer"><span class="menu-item-price">2,00 / 3,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Cola Zero 0,33L</div><div class="menu-item-desc"></div><div class="menu-item-footer"><span class="menu-item-price">2,00 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Sprite / Fanta 0,33L – 1L</div><div class="menu-item-desc"></div><div class="menu-item-footer"><span class="menu-item-price">2,00 – 3,90 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Fanta Exotic / Mezzo-Mix 0,33L</div><div class="menu-item-desc"></div><div class="menu-item-footer"><span class="menu-item-price">2,50 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Arizona Iced Tea 0,5L</div><div class="menu-item-desc"></div><div class="menu-item-footer"><span class="menu-item-price">3,00 €</span><button class="add-btn">+</button></div></div>
+  <div class="menu-item"><div class="menu-item-name">Monster Energy 0,5L</div><div class="menu-item-desc"></div><div class="menu-item-footer"><span class="menu-item-price">3,00 €</span><button class="add-btn">+</button></div></div>
+</div>
+```
+
+  </div>
+</section>
+
+<!-- INFO STRIP -->
+
+<div class="info-strip" id="info">
+  <div class="info-item">
+    <div class="info-item-icon">🕐</div>
+    <div class="info-item-title">Öffnungszeiten</div>
+    <div class="info-item-text">Täglich geöffnet<br>Aktuelle Zeiten auf Anfrage</div>
+  </div>
+  <div class="info-item">
+    <div class="info-item-icon">📍</div>
+    <div class="info-item-title">Liefergebiet</div>
+    <div class="info-item-text">Wuppertal und Umgebung<br>Alle Details auf unserer Website</div>
+  </div>
+  <div class="info-item">
+    <div class="info-item-icon">📞</div>
+    <div class="info-item-title">Reservierung</div>
+    <div class="info-item-text"><a href="tel:020251986880" style="color:var(--gold);text-decoration:none;">02025 198 6880</a><br>Vor-Ort-Essen möglich</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+
+<footer>
+  <div class="footer-logo">Sultan</div>
+  <div class="footer-links">
+    <a href="https://sultan-wuppertal.com/agb/">AGB</a>
+    <a href="https://sultan-wuppertal.com/impressum/">Impressum</a>
+    <a href="https://sultan-wuppertal.com/datenschutzerklaerung/">Datenschutz</a>
+    <a href="https://sultan-wuppertal.com/allergene/">Allergene</a>
+  </div>
+  <p class="footer-copy">© 2025 Sultan Wuppertal · Arabische Küche</p>
+</footer>
+
+<script>
+  // Tab switching
+  const tabs = document.querySelectorAll('.tab-btn');
+  const cats = document.querySelectorAll('.menu-category');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      cats.forEach(c => c.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('cat-' + tab.dataset.cat).classList.add('active');
+      // Smooth scroll to menu
+      document.getElementById('menu').scrollIntoView({behavior: 'smooth', block: 'start'});
+    });
+  });
+
+  // Fade-in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.menu-item').forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(16px)';
+    el.style.transition = `opacity 0.4s ${i * 0.04}s ease, transform 0.4s ${i * 0.04}s ease`;
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
