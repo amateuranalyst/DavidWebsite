@@ -1,194 +1,655 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Versigent Data &amp; Analytics – Qlik Transition</title>
-  <!--[if mso]>
-  <style type="text/css">
-    body, table, td { font-family: Arial, sans-serif !important; }
-  </style>
-  <![endif]-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Versigent Analytics – Team Transition</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* === VERSIGENT BRAND TOKENS === */
+  :root {
+    --packard-blue:   #16283F;
+    --electric-blue:  #0857C3;
+    --sky-blue:       #74D2E7;
+    --copper:         #CD7925;
+    --molten-gold:    #F7A900;
+    --neon-green:     #79DD05;
+    --warm-white:     #FBFAF6;
+    --light-sienna:   #CB9552;
+    --forest-green:   #004624;
+    --aluminum-1:     #F1F1F1;
+    --aluminum-2:     #888B8D;
+    --black:          #000000;
+    --white:          #FFFFFF;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--aluminum-1);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 20px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .banner {
+    width: 100%;
+    max-width: 800px;
+    background: var(--white);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 8px 48px rgba(22,40,63,0.14);
+    animation: fadeUp 0.7s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* === HERO — Packard Blue + Copper gradient === */
+  .hero {
+    background: linear-gradient(135deg, var(--packard-blue) 0%, #1e3a5c 60%, #0d2035 100%);
+    padding: 52px 52px 44px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Copper gradient orb — brand graphic accent */
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 360px; height: 360px;
+    background: radial-gradient(circle at 60% 40%, rgba(205,121,37,0.28) 0%, rgba(247,169,0,0.12) 40%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  /* Sky blue accent bottom-left */
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -40px;
+    width: 260px; height: 260px;
+    background: radial-gradient(circle, rgba(116,210,231,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .cables {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .cables svg {
+    position: absolute;
+    bottom: -10px;
+    right: -20px;
+    width: 72%;
+    height: 110%;
+    opacity: 0.18;
+  }
+
+  .cable-path {
+    fill: none;
+    stroke-linecap: round;
+    animation: cableShimmer 6s ease-in-out infinite alternate;
+  }
+
+  @keyframes cableShimmer {
+    0%   { opacity: 0.7; }
+    100% { opacity: 1; }
+  }
+
+  .cable-path:nth-child(1)  { animation-delay: 0s; }
+  .cable-path:nth-child(2)  { animation-delay: 0.3s; }
+  .cable-path:nth-child(3)  { animation-delay: 0.6s; }
+  .cable-path:nth-child(4)  { animation-delay: 0.9s; }
+  .cable-path:nth-child(5)  { animation-delay: 1.2s; }
+  .cable-path:nth-child(6)  { animation-delay: 1.5s; }
+  .cable-path:nth-child(7)  { animation-delay: 1.8s; }
+  .cable-path:nth-child(8)  { animation-delay: 2.1s; }
+  .cable-path:nth-child(9)  { animation-delay: 2.4s; }
+  .cable-path:nth-child(10) { animation-delay: 2.7s; }
+
+  /* Copper top-border line */
+  .copper-line {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--copper), var(--molten-gold), var(--copper));
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(116,210,231,0.12);
+    border: 1px solid rgba(116,210,231,0.3);
+    border-radius: 2px;
+    padding: 5px 14px;
+    margin-bottom: 28px;
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+
+  .badge-dot {
+    width: 6px; height: 6px;
+    background: var(--sky-blue);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%,100% { opacity:1; transform:scale(1); }
+    50%      { opacity:0.4; transform:scale(0.75); }
+  }
+
+  .badge span {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--sky-blue);
+  }
+
+  .hero-eyebrow {
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 10px;
+    animation: fadeUp 0.7s 0.15s ease both;
+  }
+
+  .hero h1 {
+    font-family: 'Inter', sans-serif;
+    font-size: 36px;
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 20px;
+    letter-spacing: -0.02em;
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+
+  .hero h1 strong {
+    font-weight: 600;
+    color: var(--sky-blue);
+  }
+
+  .hero-body {
+    font-size: 14.5px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.75;
+    max-width: 540px;
+    animation: fadeUp 0.7s 0.25s ease both;
+  }
+
+  .hero-body b {
+    font-weight: 500;
+    color: rgba(255,255,255,0.88);
+  }
+
+  .copper-highlight {
+    color: var(--molten-gold);
+    font-weight: 500;
+  }
+
+  /* === COPPER DIVIDER === */
+  .copper-divider {
+    height: 2px;
+    background: linear-gradient(90deg, var(--copper), var(--molten-gold) 50%, transparent);
+  }
+
+  /* === CONTINUITY STRIP === */
+  .continuity {
+    background: rgba(8,87,195,0.05);
+    border-top: 1px solid rgba(8,87,195,0.1);
+    border-bottom: 1px solid rgba(8,87,195,0.1);
+    padding: 14px 52px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: fadeUp 0.7s 0.28s ease both;
+  }
+
+  .continuity-icon {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: rgba(8,87,195,0.08);
+    border: 1px solid rgba(8,87,195,0.18);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--electric-blue);
+  }
+
+  .continuity-text {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--packard-blue);
+    line-height: 1.5;
+  }
+
+  .continuity-text b {
+    font-weight: 600;
+  }
+
+  /* === CARDS SECTION === */
+  .cards-section {
+    padding: 40px 52px;
+    background: var(--warm-white);
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--aluminum-2);
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--aluminum-1);
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .card {
+    background: var(--white);
+    border: 1px solid var(--aluminum-1);
+    border-left: 3px solid var(--copper);
+    border-radius: 2px;
+    padding: 20px 20px 20px 18px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    transition: box-shadow 0.2s, transform 0.2s;
+    animation: fadeUp 0.7s ease both;
+  }
+
+  .card:nth-child(1) { animation-delay: 0.3s;  border-left-color: var(--copper); }
+  .card:nth-child(2) { animation-delay: 0.38s; border-left-color: var(--electric-blue); }
+  .card:nth-child(3) { animation-delay: 0.46s; border-left-color: var(--molten-gold); }
+  .card:nth-child(4) { animation-delay: 0.54s; border-left-color: var(--sky-blue); }
+
+  .card:hover {
+    box-shadow: 0 4px 20px rgba(22,40,63,0.09);
+    transform: translateY(-2px);
+  }
+
+  .card-icon {
+    width: 36px; height: 36px;
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    background: var(--aluminum-1);
+  }
+
+  .card-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--packard-blue);
+    margin-bottom: 5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .card-desc {
+    font-size: 12.5px;
+    font-weight: 300;
+    color: var(--aluminum-2);
+    line-height: 1.55;
+    margin-bottom: 10px;
+  }
+
+  .card-link {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--electric-blue);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(8,87,195,0.25);
+    padding-bottom: 1px;
+    transition: color 0.2s, border-color 0.2s;
+    word-break: break-all;
+  }
+
+  .card-link:hover {
+    color: var(--copper);
+    border-color: rgba(205,121,37,0.4);
+  }
+
+  /* === ALERT === */
+  .alert-wrap {
+    padding: 0 52px 36px;
+    background: var(--warm-white);
+    animation: fadeUp 0.7s 0.6s ease both;
+  }
+
+  .alert {
+    background: rgba(247,169,0,0.06);
+    border: 1px solid rgba(205,121,37,0.22);
+    border-left: 3px solid var(--copper);
+    border-radius: 2px;
+    padding: 14px 18px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .alert-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+
+  .alert-text {
+    font-size: 13px;
+    font-weight: 300;
+    color: #4a4a4a;
+    line-height: 1.65;
+  }
+
+  .alert-text strong {
+    font-weight: 600;
+    color: var(--copper);
+  }
+
+  /* === FOOTER === */
+  .footer {
+    background: var(--packard-blue);
+    padding: 24px 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    animation: fadeUp 0.7s 0.65s ease both;
+  }
+
+  .sender-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+    letter-spacing: 0.01em;
+  }
+
+  .sender-role {
+    font-size: 12px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.5);
+    margin-top: 2px;
+  }
+
+  .sender-team {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--sky-blue);
+    margin-top: 4px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .logo-mark {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+
+  .logo-wordmark {
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--white);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .logo-wordmark span {
+    color: var(--copper);
+    font-weight: 600;
+  }
+
+  .logo-sub {
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+  }
+
+  .footer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .footer-cables {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .footer-cables svg {
+    position: absolute;
+    top: -10px;
+    left: -20px;
+    width: 75%;
+    height: 130%;
+    opacity: 0.12;
+  }
+
+  .footer-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  @media (max-width: 580px) {
+    .hero, .cards-section, .alert-wrap, .footer { padding-left: 24px; padding-right: 24px; }
+    .cards { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 26px; }
+    .footer { flex-direction: column; gap: 20px; align-items: flex-start; }
+    .logo-mark { align-items: flex-start; }
+  }
+</style>
 </head>
-<body style="margin:0; padding:0; background-color:#F1F1F1; font-family:Arial, sans-serif;">
+<body>
 
-<!-- WRAPPER -->
-<table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color:#F1F1F1;">
-  <tr>
-    <td align="center" style="padding:32px 16px;">
+<div class="banner">
 
-      <!-- BANNER CONTAINER -->
-      <table border="0" cellpadding="0" cellspacing="0" width="620" style="background-color:#ffffff; border-collapse:collapse;">
+  <!-- HERO -->
+  <div class="hero">
+    <div class="copper-line"></div>
 
-        <!-- COPPER TOP LINE -->
-        <tr>
-          <td height="4" style="background-color:#CD7925; font-size:0; line-height:0;">&nbsp;</td>
-        </tr>
+    <!-- Sweeping Cables graphic -->
+    <div class="cables">
+      <svg viewBox="0 0 600 340" preserveAspectRatio="xMaxYMax meet" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="cg1" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#CD7925" stop-opacity="0"/>
+            <stop offset="40%"  stop-color="#F7A900" stop-opacity="1"/>
+            <stop offset="100%" stop-color="#74D2E7" stop-opacity="0.6"/>
+          </linearGradient>
+          <linearGradient id="cg2" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#74D2E7" stop-opacity="0"/>
+            <stop offset="50%"  stop-color="#74D2E7" stop-opacity="1"/>
+            <stop offset="100%" stop-color="#0857C3" stop-opacity="0.4"/>
+          </linearGradient>
+          <linearGradient id="cg3" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#F7A900" stop-opacity="0"/>
+            <stop offset="60%"  stop-color="#CD7925" stop-opacity="1"/>
+            <stop offset="100%" stop-color="#CB9552" stop-opacity="0.3"/>
+          </linearGradient>
+          <linearGradient id="cg4" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#0857C3" stop-opacity="0"/>
+            <stop offset="45%"  stop-color="#74D2E7" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#74D2E7" stop-opacity="0.2"/>
+          </linearGradient>
+          <linearGradient id="cg5" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#CD7925" stop-opacity="0"/>
+            <stop offset="55%"  stop-color="#F7A900" stop-opacity="1"/>
+            <stop offset="100%" stop-color="#F7A900" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
 
-        <!-- HERO SECTION -->
-        <tr>
-          <td style="background-color:#16283F; padding:44px 44px 36px 44px;">
+        <path class="cable-path" stroke="url(#cg1)" stroke-width="2.2"
+          d="M-20,310 C80,280 140,180 240,160 S380,200 480,130 S570,60 620,20"/>
+        <path class="cable-path" stroke="url(#cg2)" stroke-width="1.6"
+          d="M-20,330 C60,300 130,210 230,185 S370,215 470,145 S575,70 630,30"/>
+        <path class="cable-path" stroke="url(#cg3)" stroke-width="2.8"
+          d="M-20,290 C90,255 160,155 260,140 S400,185 500,110 S580,45 625,5"/>
+        <path class="cable-path" stroke="url(#cg4)" stroke-width="1.4"
+          d="M-20,345 C70,315 145,225 245,200 S385,225 485,158 S572,85 628,45"/>
+        <path class="cable-path" stroke="url(#cg5)" stroke-width="2.0"
+          d="M-20,270 C100,235 165,138 265,120 S405,168 505,92 S582,30 620,-10"/>
+        <path class="cable-path" stroke="url(#cg1)" stroke-width="1.2"
+          d="M-20,355 C75,328 148,238 248,215 S388,232 488,168 S574,98 632,60"/>
+        <path class="cable-path" stroke="url(#cg2)" stroke-width="2.4"
+          d="M-20,250 C110,215 175,118 275,100 S415,150 515,75 S585,15 618,-20"/>
+        <path class="cable-path" stroke="url(#cg3)" stroke-width="1.0"
+          d="M-20,368 C80,342 150,252 250,228 S392,240 492,178 S576,110 635,74"/>
+        <path class="cable-path" stroke="url(#cg4)" stroke-width="1.8"
+          d="M-20,232 C115,198 182,100 282,82 S422,132 522,55 S588,0 615,-30"/>
+        <path class="cable-path" stroke="url(#cg5)" stroke-width="1.3"
+          d="M-20,380 C85,355 155,265 255,242 S395,248 495,190 S578,122 638,88"/>
+      </svg>
+    </div>
 
-            <!-- BADGE -->
-            <table border="0" cellpadding="0" cellspacing="0">
-              <tr>
-                <td style="background-color:rgba(116,210,231,0.12); border:1px solid #74D2E7; padding:5px 14px;">
-                  <span style="font-family:Arial,sans-serif; font-size:10px; font-weight:bold; color:#74D2E7; letter-spacing:2px; text-transform:uppercase;">APTIV &rarr; VERSIGENT &nbsp;&middot;&nbsp; DATA &amp; ANALYTICS</span>
-                </td>
-              </tr>
-            </table>
+    <div class="badge">
+      <div class="badge-dot"></div>
+      <span>Aptiv → Versigent · Data &amp; Analytics</span>
+    </div>
 
-            <!-- SPACER -->
-            <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td height="20">&nbsp;</td></tr></table>
+    <p class="hero-eyebrow">Hi everyone,</p>
 
-            <!-- EYEBROW -->
-            <p style="margin:0 0 8px 0; font-family:Arial,sans-serif; font-size:13px; color:rgba(255,255,255,0.5); color:#aaaaaa;">Hi everyone,</p>
+    <h1>A new chapter for<br><strong>Qlik Analytics</strong> at Versigent</h1>
 
-            <!-- HEADING -->
-            <h1 style="margin:0 0 18px 0; font-family:Arial,sans-serif; font-size:30px; font-weight:normal; color:#ffffff; line-height:1.2;">
-              A new chapter for<br/>
-              <span style="font-weight:bold; color:#74D2E7;">Qlik Analytics</span> at Versigent
-            </h1>
+    <p class="hero-body">
+      As part of our spin-off from <b>Aptiv</b> into <b class="copper-highlight">Versigent</b>, the Data &amp; Analytics activities previously led by <b>Christophe Leblois</b> and the team will be continued by the <b>Versigent Data &amp; Analytics</b> team. Please use the channels below for all requests and support going forward.<br><br>
+      Some of you may already be using the new channels — this communication is simply to bring everything together in one place for reference.<br><br>
+      A sincere thank you to Christophe and the team for their support in helping us set up and transition smoothly.
+    </p>
+  </div>
 
-            <!-- BODY -->
-            <p style="margin:0 0 14px 0; font-family:Arial,sans-serif; font-size:14px; color:#cccccc; line-height:1.75;">
-              As part of our spin-off from <strong style="color:#ffffff;">Aptiv</strong> into <strong style="color:#F7A900;">Versigent</strong>, the Data &amp; Analytics activities previously led by <strong style="color:#ffffff;">Christophe Leblois</strong> and the team will be continued by the <strong style="color:#ffffff;">Versigent Data &amp; Analytics</strong> team. Please use the channels below for all requests and support going forward.
-            </p>
-            <p style="margin:0 0 14px 0; font-family:Arial,sans-serif; font-size:14px; color:#cccccc; line-height:1.75;">
-              Some of you may already be using the new channels — this communication is simply to bring everything together in one place for reference.
-            </p>
-            <p style="margin:0; font-family:Arial,sans-serif; font-size:14px; color:#cccccc; line-height:1.75;">
-              A sincere thank you to Christophe and the team for their support in helping us set up and transition smoothly.
-            </p>
+  <div class="copper-divider"></div>
 
-          </td>
-        </tr>
+  <!-- CONTINUITY STRIP -->
+  <div class="continuity">
+    <div class="continuity-icon">&#10003;</div>
+    <p class="continuity-text"><b>What stays the same:</b> Your Qlik Cloud access and all your existing apps remain unchanged — no disruption to your day-to-day analytics work.</p>
+  </div>
 
-        <!-- COPPER DIVIDER -->
-        <tr>
-          <td height="3" style="background-color:#CD7925; font-size:0; line-height:0;">&nbsp;</td>
-        </tr>
+  <!-- CARDS -->
+  <div class="cards-section">
+    <p class="section-label">Here's how to reach us going forward</p>
+    <div class="cards">
 
-        <!-- CONTINUITY STRIP -->
-        <tr>
-          <td style="background-color:#EEF3FB; padding:14px 44px; border-bottom:1px solid #d8e3f4;">
-            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-              <tr>
-                <td width="28" valign="middle">
-                  <table border="0" cellpadding="0" cellspacing="0">
-                    <tr>
-                      <td width="28" height="28" align="center" valign="middle" style="background-color:#dce8f8; border:1px solid #b0c8ee; border-radius:50%;">
-                        <span style="font-family:Arial,sans-serif; font-size:13px; font-weight:bold; color:#0857C3;">&#10003;</span>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-                <td style="padding-left:12px;">
-                  <p style="margin:0; font-family:Arial,sans-serif; font-size:13px; color:#16283F; line-height:1.5;">
-                    <strong>What stays the same:</strong> Your Qlik Cloud access and all your existing apps remain unchanged — no disruption to your day-to-day analytics work.
-                  </p>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
+      <div class="card">
+        <div class="card-icon" style="font-size:13px;font-weight:600;color:#CD7925;font-family:Inter,sans-serif;">@</div>
+        <div>
+          <div class="card-title">Support & Queries</div>
+          <div class="card-desc">Got a question or need help? Drop us a line — we're happy to assist.</div>
+          <a class="card-link" href="/cdn-cgi/l/email-protection#c09b8e8597e0939590908f9294e0858d81898c9d">[NEW SUPPORT EMAIL]</a>
+        </div>
+      </div>
 
-        <!-- CARDS LABEL -->
-        <tr>
-          <td style="background-color:#FBFAF6; padding:28px 44px 14px 44px;">
-            <p style="margin:0 0 16px 0; font-family:Arial,sans-serif; font-size:10px; font-weight:bold; color:#888B8D; letter-spacing:2px; text-transform:uppercase; border-bottom:1px solid #F1F1F1; padding-bottom:12px;">
-              HERE&rsquo;S HOW TO REACH US GOING FORWARD
-            </p>
-          </td>
-        </tr>
+      <div class="card">
+        <div class="card-icon" style="font-size:13px;font-weight:600;color:#0857C3;font-family:Inter,sans-serif;">≡</div>
+        <div>
+          <div class="card-title">Access & Service Requests</div>
+          <div class="card-desc">Submit all user access and service requests via our new portal.</div>
+          <a class="card-link" href="[NEW PORTAL URL]">[NEW PORTAL URL]</a>
+        </div>
+      </div>
 
-        <!-- CARDS ROW 1 -->
-        <tr>
-          <td style="background-color:#FBFAF6; padding:0 44px 0 44px;">
-            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-              <tr valign="top">
+      <div class="card">
+        <div class="card-icon" style="font-size:13px;font-weight:600;color:#F7A900;font-family:Inter,sans-serif;">↑</div>
+        <div>
+          <div class="card-title">App Publishing</div>
+          <div class="card-desc">All Qlik app publishing requests go through the same portal.</div>
+          <a class="card-link" href="[NEW PORTAL URL]">[NEW PORTAL URL]</a>
+        </div>
+      </div>
 
-                <!-- Card 1 -->
-                <td width="48%" style="background-color:#ffffff; border-left:3px solid #CD7925; padding:18px 16px; border:1px solid #F1F1F1; border-left:3px solid #CD7925;">
-                  <p style="margin:0 0 4px 0; font-family:Arial,sans-serif; font-size:10px; font-weight:bold; color:#16283F; letter-spacing:1.5px; text-transform:uppercase;">SUPPORT &amp; QUERIES</p>
-                  <p style="margin:0 0 10px 0; font-family:Arial,sans-serif; font-size:12px; color:#888B8D; line-height:1.5;">Got a question or need help? Drop us a line — we're happy to assist.</p>
-                  <a href="mailto:[NEW SUPPORT EMAIL]" style="font-family:Arial,sans-serif; font-size:12px; font-weight:bold; color:#0857C3; text-decoration:underline;">[NEW SUPPORT EMAIL]</a>
-                </td>
+      <div class="card">
+        <div class="card-icon" style="font-size:13px;font-weight:600;color:#74D2E7;font-family:Inter,sans-serif;">#</div>
+        <div>
+          <div class="card-title">Collaboration</div>
+          <div class="card-desc">Connect, share ideas, and stay in the loop with our team.</div>
+          <a class="card-link" href="#">[NEW COLLABORATION CHANNEL]</a>
+        </div>
+      </div>
 
-                <td width="4%">&nbsp;</td>
+    </div>
+  </div>
+  <!-- FOOTER -->
+  <div class="footer">
 
-                <!-- Card 2 -->
-                <td width="48%" style="background-color:#ffffff; border-left:3px solid #0857C3; padding:18px 16px; border:1px solid #F1F1F1; border-left:3px solid #0857C3;">
-                  <p style="margin:0 0 4px 0; font-family:Arial,sans-serif; font-size:10px; font-weight:bold; color:#16283F; letter-spacing:1.5px; text-transform:uppercase;">ACCESS &amp; SERVICE REQUESTS</p>
-                  <p style="margin:0 0 10px 0; font-family:Arial,sans-serif; font-size:12px; color:#888B8D; line-height:1.5;">Submit all user access and service requests via our new portal.</p>
-                  <a href="[NEW PORTAL URL]" style="font-family:Arial,sans-serif; font-size:12px; font-weight:bold; color:#0857C3; text-decoration:underline;">[NEW PORTAL URL]</a>
-                </td>
+    <!-- Footer Sweeping Cables -->
+    <div class="footer-cables">
+      <svg viewBox="0 0 600 80" preserveAspectRatio="xMinYMid meet" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="fg1" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#CD7925" stop-opacity="0"/>
+            <stop offset="45%"  stop-color="#F7A900" stop-opacity="1"/>
+            <stop offset="100%" stop-color="#74D2E7" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="fg2" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#74D2E7" stop-opacity="0"/>
+            <stop offset="50%"  stop-color="#74D2E7" stop-opacity="1"/>
+            <stop offset="100%" stop-color="#0857C3" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="fg3" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#CB9552" stop-opacity="0"/>
+            <stop offset="55%"  stop-color="#CD7925" stop-opacity="1"/>
+            <stop offset="100%" stop-color="#F7A900" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="fg4" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#0857C3" stop-opacity="0"/>
+            <stop offset="40%"  stop-color="#74D2E7" stop-opacity="0.8"/>
+            <stop offset="100%" stop-color="#74D2E7" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="fg5" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#F7A900" stop-opacity="0"/>
+            <stop offset="60%"  stop-color="#CD7925" stop-opacity="1"/>
+            <stop offset="100%" stop-color="#CB9552" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <path class="cable-path" stroke="url(#fg1)" stroke-width="2.4"
+          d="M-20,65 C80,55 160,30 260,25 S420,38 520,18 S590,5 630,0"/>
+        <path class="cable-path" stroke="url(#fg2)" stroke-width="1.5"
+          d="M-20,72 C70,62 155,38 255,32 S415,44 515,24 S585,10 632,5"/>
+        <path class="cable-path" stroke="url(#fg3)" stroke-width="2.0"
+          d="M-20,58 C90,46 168,22 268,17 S428,32 528,12 S592,0 628,-5"/>
+        <path class="cable-path" stroke="url(#fg4)" stroke-width="1.2"
+          d="M-20,78 C75,68 158,46 258,40 S418,50 518,30 S588,16 634,11"/>
+        <path class="cable-path" stroke="url(#fg5)" stroke-width="1.8"
+          d="M-20,50 C95,38 172,14 272,8 S432,24 532,5 S595,-6 625,-12"/>
+        <path class="cable-path" stroke="url(#fg1)" stroke-width="1.0"
+          d="M-20,82 C78,73 160,52 260,47 S420,55 520,37 S590,22 636,17"/>
+        <path class="cable-path" stroke="url(#fg2)" stroke-width="2.2"
+          d="M-20,42 C100,30 178,6 278,0 S438,16 538,-3 S598,-14 622,-20"/>
+      </svg>
+    </div>
 
-              </tr>
-            </table>
-          </td>
-        </tr>
-
-        <!-- SPACER -->
-        <tr><td style="background-color:#FBFAF6;" height="12">&nbsp;</td></tr>
-
-        <!-- CARDS ROW 2 -->
-        <tr>
-          <td style="background-color:#FBFAF6; padding:0 44px 28px 44px;">
-            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-              <tr valign="top">
-
-                <!-- Card 3 -->
-                <td width="48%" style="background-color:#ffffff; border-left:3px solid #F7A900; padding:18px 16px; border:1px solid #F1F1F1; border-left:3px solid #F7A900;">
-                  <p style="margin:0 0 4px 0; font-family:Arial,sans-serif; font-size:10px; font-weight:bold; color:#16283F; letter-spacing:1.5px; text-transform:uppercase;">APP PUBLISHING</p>
-                  <p style="margin:0 0 10px 0; font-family:Arial,sans-serif; font-size:12px; color:#888B8D; line-height:1.5;">All Qlik app publishing requests go through the same portal.</p>
-                  <a href="[NEW PORTAL URL]" style="font-family:Arial,sans-serif; font-size:12px; font-weight:bold; color:#0857C3; text-decoration:underline;">[NEW PORTAL URL]</a>
-                </td>
-
-                <td width="4%">&nbsp;</td>
-
-                <!-- Card 4 -->
-                <td width="48%" style="background-color:#ffffff; border-left:3px solid #74D2E7; padding:18px 16px; border:1px solid #F1F1F1; border-left:3px solid #74D2E7;">
-                  <p style="margin:0 0 4px 0; font-family:Arial,sans-serif; font-size:10px; font-weight:bold; color:#16283F; letter-spacing:1.5px; text-transform:uppercase;">COLLABORATION</p>
-                  <p style="margin:0 0 10px 0; font-family:Arial,sans-serif; font-size:12px; color:#888B8D; line-height:1.5;">Connect, share ideas, and stay in the loop with our team.</p>
-                  <a href="[NEW COLLABORATION CHANNEL]" style="font-family:Arial,sans-serif; font-size:12px; font-weight:bold; color:#0857C3; text-decoration:underline;">[NEW COLLABORATION CHANNEL]</a>
-                </td>
-
-              </tr>
-            </table>
-          </td>
-        </tr>
-
-        <!-- FOOTER -->
-        <tr>
-          <td style="background-color:#16283F; padding:22px 44px;">
-            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-              <tr valign="middle">
-                <td>
-                  <p style="margin:0; font-family:Arial,sans-serif; font-size:14px; font-weight:bold; color:#ffffff;">Karthikeyan Ramasubbu</p>
-                  <p style="margin:2px 0 0 0; font-family:Arial,sans-serif; font-size:12px; color:#888888;">Data &amp; Analytics Manager</p>
-                  <p style="margin:4px 0 0 0; font-family:Arial,sans-serif; font-size:10px; font-weight:bold; color:#74D2E7; letter-spacing:1.5px; text-transform:uppercase;">VERSIGENT DATA &amp; ANALYTICS</p>
-                </td>
-                <td align="right">
-                  <p style="margin:0; font-family:Arial,sans-serif; font-size:17px; font-weight:normal; color:#ffffff; letter-spacing:3px; text-transform:uppercase;">VER<span style="color:#CD7925; font-weight:bold;">SIGENT</span></p>
-                  <p style="margin:3px 0 0 0; font-family:Arial,sans-serif; font-size:9px; color:#555555; letter-spacing:2px; text-transform:uppercase; text-align:right;">DATA &amp; ANALYTICS</p>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-
-        <!-- BOTTOM COPPER LINE -->
-        <tr>
-          <td height="4" style="background-color:#CD7925; font-size:0; line-height:0;">&nbsp;</td>
-        </tr>
-
-      </table>
-      <!-- END BANNER -->
-
-    </td>
-  </tr>
-</table>
-
-</body>
-</html>
+    <div class="footer-content">
+      <div class="sender">
+      <div class="sender-name">Karthikeyan Ramasubbu</div>
+      <div class="sender-role">Data & Analytics Manager</div>
+      <div class="sender-team">Versigent Data & Analytics</div>
+    </div>
+    <div class="logo-mark">
+      <div class="logo-wordmark">VER<span>SIGENT</span></div>
+      <div class="logo-sub">Data & Analytics</div>
