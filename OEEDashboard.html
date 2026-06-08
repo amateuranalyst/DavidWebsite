@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OEE Dashboard — Manufacturing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;500;700&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0d0f10;
+      --surface:   #141618;
+      --card:      #1a1d1f;
+      --border:    rgba(255,255,255,0.07);
+      --border-hi: rgba(255,255,255,0.14);
+      --text:      #e8e6e0;
+      --muted:     #6b6b65;
+      --accent:    #c8f135;
+      --accent-dk: #8fb020;
+      --blue:      #3a8ef5;
+      --amber:     #f5a623;
+      --red:       #e84545;
+      --teal:      #1db98a;
+      --font-head: 'Syne', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+      --radius:    10px;
+      --radius-lg: 16px;
+    }
+
+    html { font-size: 16px; background: var(--bg); color: var(--text); font-family: var(--font-mono); }
+
+    body { min-height: 100vh; }
+
+    /* ── HEADER ── */
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 2rem;
+      border-bottom: 0.5px solid var(--border);
+      background: var(--surface);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .logo { font-family: var(--font-head); font-size: 1.1rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text); display: flex; align-items: center; gap: 10px; }
+    .logo-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); }
+    .header-right { display: flex; align-items: center; gap: 1rem; }
+    .live-badge { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; }
+    .live-pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: pulse 1.8s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+    .timestamp { font-size: 11px; color: var(--muted); }
+
+    /* ── FILTERS ── */
+    .filters {
+      display: flex; gap: 0.75rem; align-items: center;
+      padding: 1rem 2rem;
+      border-bottom: 0.5px solid var(--border);
+      background: var(--surface);
+    }
+    .filter-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-right: 4px; }
+    select, .btn {
+      background: var(--card); border: 0.5px solid var(--border-hi); color: var(--text);
+      font-family: var(--font-mono); font-size: 12px; padding: 6px 12px;
+      border-radius: var(--radius); cursor: pointer; outline: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    select:hover, .btn:hover { border-color: var(--accent); }
+    select:focus { border-color: var(--accent); }
+    .btn { display: flex; align-items: center; gap: 6px; }
+    .btn.active, .btn:active { background: var(--accent); color: #000; border-color: var(--accent); }
+    .spacer { flex: 1; }
+
+    /* ── MAIN LAYOUT ── */
+    main { padding: 1.5rem 2rem; display: flex; flex-direction: column; gap: 1.25rem; }
+
+    /* ── OEE HERO ── */
+    .hero {
+      display: grid; grid-template-columns: 280px 1fr; gap: 1.25rem;
+      background: var(--card); border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden;
+    }
+    .hero-left {
+      background: linear-gradient(145deg, #181f0e 0%, #0d1a06 100%);
+      padding: 2rem 1.75rem; display: flex; flex-direction: column; justify-content: center;
+      border-right: 0.5px solid var(--border);
+    }
+    .hero-eyebrow { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-dk); margin-bottom: 0.5rem; }
+    .hero-oee { font-family: var(--font-head); font-size: 5rem; font-weight: 700; color: var(--accent); line-height: 1; margin-bottom: 0.5rem; letter-spacing: -0.04em; }
+    .hero-label { font-size: 11px; color: var(--muted); margin-bottom: 1.5rem; }
+    .world-class-bar { position: relative; height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; margin-bottom: 0.4rem; }
+    .world-class-fill { height: 100%; border-radius: 2px; background: var(--accent); transition: width 0.6s ease; }
+    .world-class-marker { position: absolute; top: -4px; bottom: -4px; width: 1px; background: rgba(255,255,255,0.3); left: 85%; }
+    .world-class-marker::after { content: '85%'; position: absolute; top: -18px; left: 4px; font-size: 10px; color: var(--muted); white-space: nowrap; }
+    .bar-label-row { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); }
+
+    .hero-right { padding: 1.5rem; display: flex; flex-direction: column; justify-content: center; gap: 1rem; }
+    .pillar { display: grid; grid-template-columns: 130px 1fr auto; align-items: center; gap: 12px; }
+    .pillar-name { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 7px; }
+    .pillar-icon { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .pillar-track { height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; }
+    .pillar-fill { height: 100%; border-radius: 3px; transition: width 0.6s ease; }
+    .pillar-val { font-size: 14px; font-weight: 500; min-width: 44px; text-align: right; }
+    .pillar-formula { font-size: 10px; color: var(--muted); text-align: center; margin-top: 0.5rem; letter-spacing: 0.02em; }
+
+    /* ── KPI CARDS ── */
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+    .kpi { background: var(--card); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem 1.5rem; }
+    .kpi-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.6rem; }
+    .kpi-value { font-family: var(--font-head); font-size: 2rem; font-weight: 700; line-height: 1; margin-bottom: 0.4rem; }
+    .kpi-delta { font-size: 11px; display: flex; align-items: center; gap: 4px; }
+    .delta-up   { color: var(--teal); }
+    .delta-dn   { color: var(--red); }
+    .delta-neu  { color: var(--muted); }
+
+    /* ── CHARTS ROW ── */
+    .charts-row { display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem; }
+    .chart-card { background: var(--card); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem 1.5rem; }
+    .card-title { font-family: var(--font-head); font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+    .card-sub { font-size: 11px; color: var(--muted); margin-bottom: 1rem; }
+    .legend-row { display: flex; gap: 14px; margin-bottom: 12px; flex-wrap: wrap; }
+    .leg { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); }
+    .leg-sq { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+    /* ── BOTTOM ROW ── */
+    .bottom-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+
+    /* ── TABLE ── */
+    table { width: 100%; border-collapse: collapse; }
+    th { font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); padding: 6px 8px; text-align: left; border-bottom: 0.5px solid var(--border); font-weight: 400; }
+    td { font-size: 12px; padding: 9px 8px; border-bottom: 0.5px solid var(--border); color: var(--text); }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .pill { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 500; }
+    .pill-g { background: rgba(29,185,138,0.15); color: var(--teal); }
+    .pill-a { background: rgba(245,166,35,0.15); color: var(--amber); }
+    .pill-r { background: rgba(232,69,69,0.15); color: var(--red); }
+
+    /* ── OEE MINI BAR IN TABLE ── */
+    .mini-bar-wrap { display: flex; align-items: center; gap: 8px; }
+    .mini-bar-track { width: 60px; height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
+    .mini-bar-fill { height: 100%; border-radius: 2px; }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border-hi); border-radius: 3px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1100px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-left { border-right: none; border-bottom: 0.5px solid var(--border); }
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .charts-row, .bottom-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      header, .filters, main { padding-left: 1rem; padding-right: 1rem; }
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero-oee { font-size: 3.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-dot"></div>
+    OEE Dashboard
+  </div>
+  <div class="header-right">
+    <span class="live-badge"><span class="live-pulse"></span> Live</span>
+    <span class="timestamp" id="clock">--:--:--</span>
+  </div>
+</header>
+
+<div class="filters">
+  <span class="filter-label">Line</span>
+  <select id="lineSel" onchange="refresh()">
+    <option value="A">Line A — Press Shop</option>
+    <option value="B">Line B — Stamping</option>
+    <option value="C">Line C — Weld Cell</option>
+  </select>
+  <span class="filter-label" style="margin-left:8px;">Shift</span>
+  <select id="shiftSel" onchange="refresh()">
+    <option value="all">All shifts</option>
+    <option value="morning">Morning 06–14</option>
+    <option value="afternoon">Afternoon 14–22</option>
+    <option value="night">Night 22–06</option>
+  </select>
+  <span class="filter-label" style="margin-left:8px;">Period</span>
+  <select id="periodSel" onchange="refresh()">
+    <option value="today">Today</option>
+    <option value="week">This week</option>
+    <option value="month">This month</option>
+  </select>
+  <div class="spacer"></div>
+  <button class="btn" onclick="exportCSV()">↓ Export CSV</button>
+</div>
+
+<main>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Overall Equipment Effectiveness</div>
+      <div class="hero-oee" id="oeeVal">78.4%</div>
+      <div class="hero-label">Current OEE — Line A</div>
+      <div class="world-class-bar">
+        <div class="world-class-fill" id="oeeBar" style="width:78.4%"></div>
+        <div class="world-class-marker"></div>
+      </div>
+      <div class="bar-label-row"><span>0%</span><span>100%</span></div>
+    </div>
+    <div class="hero-right">
+      <div class="pillar">
+        <div class="pillar-name"><span class="pillar-icon" style="background:var(--blue)"></span>Availability</div>
+        <div class="pillar-track"><div class="pillar-fill" id="avBar" style="width:87%;background:var(--blue)"></div></div>
+        <div class="pillar-val" id="avVal" style="color:var(--blue)">87.0%</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-name"><span class="pillar-icon" style="background:var(--teal)"></span>Performance</div>
+        <div class="pillar-track"><div class="pillar-fill" id="pfBar" style="width:91%;background:var(--teal)"></div></div>
+        <div class="pillar-val" id="pfVal" style="color:var(--teal)">91.0%</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-name"><span class="pillar-icon" style="background:var(--amber)"></span>Quality</div>
+        <div class="pillar-track"><div class="pillar-fill" id="qlBar" style="width:99%;background:var(--amber)"></div></div>
+        <div class="pillar-val" id="qlVal" style="color:var(--amber)">99.0%</div>
+      </div>
+      <div class="pillar-formula">OEE = Availability × Performance × Quality</div>
+    </div>
+  </div>
+
+  <!-- KPI CARDS -->
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="kpi-label">Good Parts</div>
+      <div class="kpi-value" id="goodParts" style="color:var(--accent)">12,840</div>
+      <div class="kpi-delta delta-up">▲ +3.2% vs yesterday</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Downtime</div>
+      <div class="kpi-value" id="downtimeVal" style="color:var(--red)">47 min</div>
+      <div class="kpi-delta delta-dn">▲ +8 min vs target</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Scrap Rate</div>
+      <div class="kpi-value" id="scrapRate" style="color:var(--amber)">0.8%</div>
+      <div class="kpi-delta delta-up">▼ −0.1% vs yesterday</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Cycle Time</div>
+      <div class="kpi-value" id="cycleTime" style="color:var(--blue)">4.2 s</div>
+      <div class="kpi-delta delta-neu">— Target: 4.0 s</div>
+    </div>
+  </div>
+
+  <!-- CHARTS ROW -->
+  <div class="charts-row">
+    <div class="chart-card">
+      <div class="card-title">OEE trend — last 7 shifts</div>
+      <div class="card-sub">Availability · Performance · Quality per shift</div>
+      <div class="legend-row">
+        <span class="leg"><span class="leg-sq" style="background:var(--blue)"></span>Availability</span>
+        <span class="leg"><span class="leg-sq" style="background:var(--teal)"></span>Performance</span>
+        <span class="leg"><span class="leg-sq" style="background:var(--amber)"></span>Quality</span>
+      </div>
+      <div style="position:relative;height:220px;">
+        <canvas id="trendChart" role="img" aria-label="Line chart of OEE components over 7 shifts">Shift trend data.</canvas>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="card-title">Downtime by reason</div>
+      <div class="card-sub">Today — minutes lost</div>
+      <div class="legend-row">
+        <span class="leg"><span class="leg-sq" style="background:var(--red)"></span>Mechanical</span>
+        <span class="leg"><span class="leg-sq" style="background:var(--blue)"></span>Changeover</span>
+        <span class="leg"><span class="leg-sq" style="background:var(--amber)"></span>Material</span>
+        <span class="leg"><span class="leg-sq" style="background:#6b6b65)"></span>Other</span>
+      </div>
+      <div style="position:relative;height:220px;">
+        <canvas id="downtimeChart" role="img" aria-label="Horizontal bar chart of downtime causes">Downtime data.</canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM ROW -->
+  <div class="bottom-row">
+    <div class="chart-card">
+      <div class="card-title">Machine status</div>
+      <div class="card-sub">Real-time per-machine OEE</div>
+      <table>
+        <thead><tr><th>Machine</th><th>OEE</th><th>Status</th></tr></thead>
+        <tbody id="machineBody">
+          <tr><td>Press #1</td><td><div class="mini-bar-wrap"><div class="mini-bar-track"><div class="mini-bar-fill" style="width:83%;background:var(--teal)"></div></div>83.2%</div></td><td><span class="pill pill-g">Running</span></td></tr>
+          <tr><td>Press #2</td><td><div class="mini-bar-wrap"><div class="mini-bar-track"><div class="mini-bar-fill" style="width:72%;background:var(--amber)"></div></div>71.8%</div></td><td><span class="pill pill-a">Changeover</span></td></tr>
+          <tr><td>Stamper A</td><td><div class="mini-bar-wrap"><div class="mini-bar-track"><div class="mini-bar-fill" style="width:90%;background:var(--teal)"></div></div>90.1%</div></td><td><span class="pill pill-g">Running</span></td></tr>
+          <tr><td>Stamper B</td><td><div class="mini-bar-wrap"><div class="mini-bar-track"><div class="mini-bar-fill" style="width:0%;background:var(--red)"></div></div>0.0%</div></td><td><span class="pill pill-r">Breakdown</span></td></tr>
+          <tr><td>Weld Cell 1</td><td><div class="mini-bar-wrap"><div class="mini-bar-track"><div class="mini-bar-fill" style="width:88%;background:var(--teal)"></div></div>88.4%</div></td><td><span class="pill pill-g">Running</span></td></tr>
+          <tr><td>Weld Cell 2</td><td><div class="mini-bar-wrap"><div class="mini-bar-track"><div class="mini-bar-fill" style="width:77%;background:var(--teal)"></div></div>76.5%</div></td><td><span class="pill pill-g">Running</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="chart-card">
+      <div class="card-title">Top defect causes</div>
+      <div class="card-sub">Scrap by type — today</div>
+      <div style="position:relative;height:240px;">
+        <canvas id="defectChart" role="img" aria-label="Doughnut chart of defect types">Defect distribution.</canvas>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  /* ── CLOCK ── */
+  function tick() {
+    document.getElementById('clock').textContent = new Date().toLocaleTimeString('en-IE');
+  }
+  tick(); setInterval(tick, 1000);
+
+  /* ── DATA ── */
+  const DATA = {
+    A: {
+      all:       { oee:78.4, av:87, pf:91, ql:99, good:12840, dt:47, scrap:0.8, ct:4.2 },
+      morning:   { oee:82.1, av:90, pf:92, ql:99, good:5200,  dt:18, scrap:0.6, ct:4.0 },
+      afternoon: { oee:77.3, av:86, pf:90, ql:99, good:4890,  dt:16, scrap:0.9, ct:4.3 },
+      night:     { oee:71.8, av:83, pf:87, ql:99, good:2750,  dt:13, scrap:1.1, ct:4.5 }
+    },
+    B: {
+      all:       { oee:81.2, av:89, pf:93, ql:98, good:14200, dt:38, scrap:1.2, ct:3.8 },
+      morning:   { oee:85.0, av:92, pf:94, ql:98, good:5900,  dt:12, scrap:0.9, ct:3.7 },
+      afternoon: { oee:80.5, av:88, pf:93, ql:98, good:5100,  dt:14, scrap:1.0, ct:3.9 },
+      night:     { oee:74.1, av:84, pf:89, ql:99, good:3200,  dt:12, scrap:1.5, ct:4.1 }
+    },
+    C: {
+      all:       { oee:69.5, av:80, pf:88, ql:99, good:9800,  dt:72, scrap:0.5, ct:5.2 },
+      morning:   { oee:74.2, av:83, pf:91, ql:98, good:4100,  dt:24, scrap:0.6, ct:5.0 },
+      afternoon: { oee:68.0, av:79, pf:87, ql:99, good:3700,  dt:25, scrap:0.5, ct:5.3 },
+      night:     { oee:62.1, av:74, pf:85, ql:99, good:2000,  dt:23, scrap:0.7, ct:5.5 }
+    }
+  };
+
+  /* ── UPDATE UI ── */
+  function refresh() {
+    const line  = document.getElementById('lineSel').value;
+    const shift = document.getElementById('shiftSel').value;
+    const d = DATA[line][shift];
+
+    document.getElementById('oeeVal').textContent = d.oee.toFixed(1) + '%';
+    document.getElementById('oeeBar').style.width = d.oee + '%';
+    document.getElementById('avBar').style.width  = d.av + '%';  document.getElementById('avVal').textContent = d.av.toFixed(1) + '%';
+    document.getElementById('pfBar').style.width  = d.pf + '%';  document.getElementById('pfVal').textContent = d.pf.toFixed(1) + '%';
+    document.getElementById('qlBar').style.width  = d.ql + '%';  document.getElementById('qlVal').textContent = d.ql.toFixed(1) + '%';
+    document.getElementById('goodParts').textContent = d.good.toLocaleString();
+    document.getElementById('downtimeVal').textContent = d.dt + ' min';
+    document.getElementById('scrapRate').textContent = d.scrap.toFixed(1) + '%';
+    document.getElementById('cycleTime').textContent = d.ct.toFixed(1) + ' s';
+  }
+
+  /* ── CHARTS ── */
+  const gridColor = 'rgba(255,255,255,0.05)';
+  const tickColor = '#6b6b65';
+
+  const trendCtx = document.getElementById('trendChart').getContext('2d');
+  const trendChart = new Chart(trendCtx, {
+    type: 'line',
+    data: {
+      labels: ['S1','S2','S3','S4','S5','S6','S7'],
+      datasets: [
+        { label:'Availability', data:[85,88,82,91,87,84,87], borderColor:'#3a8ef5', backgroundColor:'rgba(58,142,245,0.07)', tension:0.4, pointRadius:4, pointHoverRadius:6, fill:true, borderDash:[] },
+        { label:'Performance',  data:[89,92,87,95,91,88,91], borderColor:'#1db98a', backgroundColor:'rgba(29,185,138,0.05)', tension:0.4, pointRadius:4, pointHoverRadius:6, fill:true, borderDash:[5,3] },
+        { label:'Quality',      data:[99,98,99,99,97,99,99], borderColor:'#f5a623', backgroundColor:'rgba(245,166,35,0.04)', tension:0.4, pointRadius:4, pointHoverRadius:6, fill:true, borderDash:[2,2] }
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      interaction:{ mode:'index', intersect:false },
+      plugins:{ legend:{ display:false }, tooltip:{ backgroundColor:'#1a1d1f', borderColor:'rgba(255,255,255,0.1)', borderWidth:1, titleColor:'#e8e6e0', bodyColor:'#6b6b65', padding:10 } },
+      scales:{
+        y:{ min:75, max:100, ticks:{ color:tickColor, font:{size:10,family:'DM Mono,monospace'}, callback:v=>v+'%' }, grid:{ color:gridColor } },
+        x:{ ticks:{ color:tickColor, font:{size:10,family:'DM Mono,monospace'} }, grid:{ display:false } }
+      }
+    }
+  });
+
+  const dtCtx = document.getElementById('downtimeChart').getContext('2d');
+  const downtimeChart = new Chart(dtCtx, {
+    type:'bar',
+    data:{
+      labels:['Mechanical','Changeover','Material wait','Other'],
+      datasets:[{ label:'Minutes', data:[18,14,9,6], backgroundColor:['#e84545','#3a8ef5','#f5a623','#6b6b65'], borderRadius:4, borderSkipped:false }]
+    },
+    options:{
+      indexAxis:'y', responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ display:false }, tooltip:{ backgroundColor:'#1a1d1f', borderColor:'rgba(255,255,255,0.1)', borderWidth:1, titleColor:'#e8e6e0', bodyColor:'#6b6b65' } },
+      scales:{
+        x:{ ticks:{ color:tickColor, font:{size:10,family:'DM Mono,monospace'}, callback:v=>v+' min' }, grid:{ color:gridColor } },
+        y:{ ticks:{ color:tickColor, font:{size:11,family:'DM Mono,monospace'} }, grid:{ display:false } }
+      }
+    }
+  });
+
+  const defCtx = document.getElementById('defectChart').getContext('2d');
+  const defectChart = new Chart(defCtx, {
+    type:'doughnut',
+    data:{
+      labels:['Dimensional OOT','Surface scratch','Burr / sharp edge','Weld porosity','Other'],
+      datasets:[{ data:[49,27,13,8,3], backgroundColor:['#e84545','#f5a623','#3a8ef5','#1db98a','#6b6b65'], hoverOffset:6, borderWidth:0, borderRadius:3 }]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false, cutout:'62%',
+      plugins:{
+        legend:{ display:true, position:'bottom', labels:{ color:tickColor, font:{size:10,family:'DM Mono,monospace'}, boxWidth:10, padding:12 } },
+        tooltip:{ backgroundColor:'#1a1d1f', borderColor:'rgba(255,255,255,0.1)', borderWidth:1, titleColor:'#e8e6e0', bodyColor:'#6b6b65', callbacks:{ label:ctx => ` ${ctx.label}: ${ctx.parsed}%` } }
+      }
+    }
+  });
+
+  /* ── EXPORT CSV ── */
+  function exportCSV() {
+    const line  = document.getElementById('lineSel').value;
+    const shift = document.getElementById('shiftSel').value;
+    const d = DATA[line][shift];
+    const rows = [
+      ['Metric','Value'],
+      ['OEE', d.oee + '%'],
+      ['Availability', d.av + '%'],
+      ['Performance', d.pf + '%'],
+      ['Quality', d.ql + '%'],
+      ['Good Parts', d.good],
+      ['Downtime (min)', d.dt],
+      ['Scrap Rate', d.scrap + '%'],
+      ['Cycle Time (s)', d.ct]
+    ];
+    const csv  = rows.map(r => r.join(',')).join('\n');
+    const blob = new Blob([csv], { type:'text/csv' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url; a.download = `oee_line${line}_${shift}_${new Date().toISOString().slice(0,10)}.csv`;
+    a.click(); URL.revokeObjectURL(url);
+  }
+</script>
+</body>
+</html>
